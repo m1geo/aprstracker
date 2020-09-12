@@ -1,0 +1,133 @@
+version 0.12
+
+* Corrected error in meters to feet altitude conversion code. 
+* Increased dead-time after a corner peg beacon to 10 seconds.
+* Changed timing in serial communication function. possible fix 
+  for 9600bd comms.
+
+
+version 0.11
+
+* Rolled back the modem timing as it was in v0.9.
+  The 1200Hz tone was already within 2Hz exact, but it is difficult to
+  create an exact 2200Hz tone. v0.10 produced a 2230Hz tone.
+  v0.11 (and v0.9 and before) produce a 2170Hz tone.
+  It is possible to alternate 2170 and 2230 Hz periods with every bit.
+  Measured over a number of periods this seems to measure to exactly 2200Hz,
+  but there is a catch. PLL type decoders now need to lock onto a different
+  2200Hz tone for every bit. I have found that it is better to accept a
+  30 Hz deviation as long as it is constant. 
+  With 2170Hz at least the bit length is matched pretty accurately.
+  The reason I started fiddling with the modem timing in v0.10 was because
+  it didn't work properly with a pic16f636. I believed to have solved it 
+  by changing the modem timing, but it turned out that interrupts during 
+  eeprom reads were the real problem.
+  The (hopefully) real solution was to...
+
+  * Optimize the modem Interrupt Service Routine. Execution is 2 cycles 
+    faster, leaving more time for other things like reading from eeprom.
+
+  * Reading from EEPROM is now faster. The macro supplied by the compiler
+    produces 11 instructions of code, the new code is only 5 instructions.
+    The shorter eeprom read routine allows for temporary turning off
+    interrupts during reads.
+
+* Fixed \r\n to CR/LF conversion bug in configuration utility 'atprogrammenu'.
+  Thanks to Harald/DO8HT for reporting this bug.
+
+* Added a GPS config pre-set for Garmin (option 'N') in 'atprogrammenu'.
+
+* The GPS LED now doubles as a "GPS alive" and a "GPS lock" indicator.
+  In previous releases the GPS LED toggled every time the characters $GP
+  were received. In this release the GPS LED goes on after power-up, and
+  goes off when the first $GP is received. Next the GPS LED will start
+  flashing. There are 2 types of flashing. If the GPS is not locked yet,
+  then the LED is mostly off, and will flash on every time $GPRMC or $GPGGA
+  is received. If the GPS is locked, then the LED is mostly on, and will
+  flash off every time $GPRMC or $GPGGA is received. Because of this new 
+  behavior of the GPS LED, the possibility to change the function of the 
+  STATUS LED with SW1 is now superfluous and has been removed.
+
+* 16f626, and 16f648 builds: If SW1 is shorted the Status LED output can
+  be used to control a PLL synthesizer. If SW1 is shorted then the Status
+  LED output will go high 130 ms before the PTT line goes low. The Status
+  LED output will go low again when PTT goes high. (I.e. when transmission
+  is completed)
+
+* 16f636 build: a XOFF character is sent on serial out 130 ms before PTT
+  line goes low. And a XON character is sent when RF transmission is 
+  completed. XON-XOFF are used in the KF163 to control the PLL.
+
+* Added support for RMC. Aprstracker can now operate, incl. SmartBeaconing,
+  when RMC is the only available NMEA sentence. GGA is only needed if
+  transmission of altitude information is enabled.
+  As with previous versions, aprstracker can also operate with just GGA
+  sentences without SmartBeaconing. Or with GGA and VTG sentences with
+  SmartBeaconing.
+
+* Status type APRS frames can now have a user configurable text. 
+  This feature is not available in the build for the pic16f628 because
+  this microcontroller does not have enough eeprom storage.
+  The status text can be maximum 127 characters long in this release.
+  Future releases may have a smaller length if memory space is needed
+  for other features.
+  Status packets are transmitted by the tracker using the standard APRS
+  decay design. I.e. the status packet is transmitted shortly after 
+  power-up, then 8 seconds later, then 16, then 32, then 1 minute, then
+  2 mins, then 4 mins, then 8 mins and then 16 mins and then 30 mins.
+  Thus there is excellent probability that the packet is delivered quickly,
+  but then there is redundancy in case of collisions.
+
+* Removed 2nd, 3rd, and 4th beacon comment texts because memory space
+  was needed for the user configurable status text.
+
+
+version 0.10:
+
+* Improved modem timing
+
+* Added support for KF163-Tracker (pic16f636)
+
+* Added new features:
+  * Altitude can be disabled
+  * Speed & Course can be disabled
+  * User configurable GPS config string
+  * User can select new-EU paradigm or new-N paradigm
+  * Proportional pathing
+  * 4 user configurable beacon comments with user configurable interval
+
+The 4 configurable beacon comments are only availble in the build for pic16f636
+as the pic16f628 does not have enough eeprom to store the 3 additional 
+comment strings.
+	
+
+versie 0.9:
+
+* bugfix. Er werd nooit een baken uitgezonden als de interval op een vast
+  interval stond (SmartBeaconing uit)
+  (Met dank aan Jelle PE1KDA voor het rapporteren van de bug)
+
+* bugfix. In geval vast baken interval (SmartBeaconing uit) werd SW3 niet
+  gepolled. (Met dank aan Ralf DC9NYC voor het rapporteren van de bug)
+
+* new feature. Als SW1 is kortgesloten dan geeft de status LED aan of de GPS
+  ontvanger is gelocked. Zonder SW1 jumper geeft deze LED aan of het radio
+  vrij is.
+
+
+nieuw in versie 0.8:
+
+* Auto detect of RS232 data is geinverteerd. Hierdoor is het 
+  mogelijk om een OEM GPS module zonder inverter aan te sluiten.
+
+* Naast 4800 baud is het ook mogelijk om RS232 data met 9600 bd te ontvangen.
+  Als jumper SW2 is kortgeloten dan verwacht de tracker 9600 bd data.
+  Let op: standaard NMEA is 4800 bd.
+  
+* Verbeterd SmartBeaconing algorithme.
+
+* Memory map ersie opgehoogd naar 0x02
+
+* Enkele SmartBeaconing parameters zijn configureerbaar met de nieuwe 
+  versie van atprogrammenu.
+

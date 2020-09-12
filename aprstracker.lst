@@ -1,0 +1,2861 @@
+
+
+HI-TECH Software PICC Macro Assembler V8.02PL1
+                                                      Sat Feb  7 18:22:33 2009
+
+
+     1                           	processor	16F648
+     2                           	opt	pw 79
+     3                           	psect	text0,local,class=CODE,delta=2
+     4                           	psect	config,global,class=CONFIG,delta=2
+     5                           	psect	strings,global,class=STRING,delta=2
+     6                           	psect	const1,local,class=CONST,delta=2
+     7                           	psect	eeprom_data,global,class=EEDATA,delta=2
+     8                           	psect	rdata_0,global,class=BANK0,space=1,delta
+      +                          =1
+     9                           	psect	idata_0,global,class=CODE,delta=2
+    10                           	psect	text1,local,class=CODE,delta=2
+    11                           	psect	text2,local,class=CODE,delta=2
+    12                           	psect	intcode,global,class=CODE,delta=2
+    13                           	psect	intsave_0,global,ovrld,class=BANK0,space
+      +                          =1,delta=1
+    14                           	psect	intret,global,class=CODE,delta=2
+    15                           	psect	intentry,global,class=CODE,delta=2
+    16                           	psect	intsave,global,class=BANK0,space=1,delta
+      +                          =1
+    17                           	psect	text3,local,class=CODE,delta=2
+    18                           	psect	text4,local,class=CODE,delta=2
+    19                           	psect	text5,local,class=CODE,delta=2
+    20                           	psect	text6,local,class=CODE,delta=2
+    21                           	psect	text7,local,class=CODE,delta=2
+    22                           	psect	text8,local,class=CODE,delta=2
+    23                           	psect	text9,local,class=CODE,delta=2
+    24                           	psect	text10,local,class=CODE,delta=2
+    25                           	psect	text11,local,class=CODE,delta=2
+    26                           	psect	text12,local,class=CODE,delta=2
+    27                           	psect	text13,local,class=CODE,delta=2
+    28                           	psect	text14,local,class=CODE,delta=2
+    29                           	psect	rbit_0,global,bit,class=BANK0,space=1,de
+      +                          lta=1
+    30                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+    31                           	psect	temp,global,ovrld,class=BANK0,space=1,de
+      +                          lta=1
+    32  0000                     
+    33  0000                     
+    34  0000                     
+    35  0000                     
+    36  0000                     
+    37  0000                     
+    38  0000                     
+    39  0000                     
+    40  0000                     
+    41  0000                     	;#
+    42                           
+    43                           	psect	text0
+    44  02B9                     _tdtoi
+    45                           ;aprstracker.c: 59: int result = 0;
+    46                           ;	_result assigned to ?a_tdtoi+0
+    47  0000                     _tdtoi$result	set	?a_tdtoi
+    48  02B9  01D6               	clrf	?a_tdtoi
+    49  02BA  01D7               	clrf	?a_tdtoi+1
+    50                           ;aprstracker.c: 60: char c = 0;
+    51                           ;	_c assigned to ?a_tdtoi+2
+    52  0000                     _tdtoi$c	set	?a_tdtoi+2
+    53  02BB  01D8               	clrf	?a_tdtoi+2
+    54                           ;aprstracker.c: 61: while (c < 3) {
+    55                           ;	_s assigned to ?a_tdtoi+3
+    56  0000                     _tdtoi$s	set	?a_tdtoi+3
+    57                           ;_s stored from w
+    58  02BC  00D9               	movwf	?a_tdtoi+3
+    59  02BD  2AD2               	goto	l2
+    60  02BE                     l3
+    61                           ;aprstracker.c: 62: result = 10*result + ((int)
+      +                          (s[c] & 0x0F));
+    62  02BE  300A               	movlw	10
+    63  02BF  00F2               	movwf	btemp+2
+    64  02C0  01F3               	clrf	btemp+3
+    65  02C1  0857               	movf	?a_tdtoi+1,w
+    66  02C2  00F1               	movwf	btemp+1
+    67  02C3  0856               	movf	?a_tdtoi,w
+    68  02C4  00F0               	movwf	btemp
+    69  02C5  2256               	call	awmul
+    70  02C6  0858               	movf	?a_tdtoi+2,w
+    71  02C7  0759               	addwf	?a_tdtoi+3,w
+    72  02C8  0084               	movwf	4
+    73  02C9  0800               	movf	0,w
+    74  02CA  390F               	andlw	15
+    75  02CB  0774               	addwf	btemp+4,w
+    76  02CC  00D6               	movwf	?a_tdtoi
+    77  02CD  0875               	movf	btemp+5,w
+    78  02CE  1803               	btfsc	3,0
+    79  02CF  0A75               	incf	btemp+5,w
+    80  02D0  00D7               	movwf	?a_tdtoi+1
+    81                           ;aprstracker.c: 63: c++;
+    82  02D1  0AD8               	incf	?a_tdtoi+2
+    83                           ;aprstracker.c: 64: }
+    84  02D2                     l2
+    85  02D2  3003               	movlw	3
+    86  02D3  1283               	bcf	3,5
+    87  02D4  0258               	subwf	?a_tdtoi+2,w
+    88  02D5  1C03               	btfss	3,0
+    89  02D6  2ABE               	goto	l3
+    90                           ;aprstracker.c: 65: return(result);
+    91  02D7  0857               	movf	?a_tdtoi+1,w
+    92  02D8  00F1               	movwf	btemp+1
+    93  02D9  0856               	movf	?a_tdtoi,w
+    94  02DA  00F0               	movwf	btemp
+    95                           ;aprstracker.c: 66: }
+    96  02DB  0008               	return
+    97                           
+    98                           	psect	config
+    99  2007                     config_word
+   100                           ;#
+   101  2007  3F66               	dw	16230	;#
+   102                           
+   103                           	psect	const1
+   104  0073  0782               	addwf	2
+   105  0074                     _version_text
+   106  0074  34F6               	retlw	-10
+   107  0075  3482               	retlw	-126
+   108  0076  34A8               	retlw	-88
+   109  0077  3460               	retlw	96
+   110  0078  3486               	retlw	-122
+   111  0079  3468               	retlw	104
+   112  007A  34FA               	retlw	-6
+   113  007B  3400               	retlw	0	;#
+   114                           
+   115                           	psect	eeprom_data
+   116                           ;#
+   117                           ;#
+   118  2100  0082 00A0 008A     	db	130,160,138,164,176,162,96	;#
+      +       00A4 00B0 00A2     
+      +       0060               
+   119                           ;#
+   120  2107  009C 009E 0086     	db	156,158,134,130,152,152,96	;#
+      +       0082 0098 0098     
+      +       0060               
+   121                           ;#
+   122  210E  00AE 0092 0088     	db	174,146,136,138,98,64,98	;#
+      +       008A 0062 0040     
+      +       0062               
+   123                           ;#
+   124                           ;#
+   125  2115  0003               	db	3	;#
+   126                           ;#
+   127                           ;#
+   128  2116  0002               	db	2	;#
+   129                           ;#
+   130  2117  005A               	db	90	;#
+   131                           ;#
+   132                           ;#
+   133  2118  0014               	db	20	;#
+   134                           ;#
+   135                           ;#
+   136                           ;#
+   137  2119  0003               	db	3	;#
+   138                           ;#
+   139                           ;#
+   140  211A  0032               	db	50	;#
+   141                           ;#
+   142  211B  0005               	db	5	;#
+   143                           ;#
+   144  211C  0000               	db	0	;#
+   145                           ;#
+   146                           ;#
+   147  211D  003C               	db	60	;#
+   148                           ;#
+   149                           ;#
+   150  211E  002F               	db	47	;#
+   151                           ;#
+   152                           ;#
+   153  211F  003E               	db	62	;#
+   154                           ;#
+   155                           ;#
+   156  2120  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   157  2128  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   158  2130  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   159  2138  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   160  2140  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   161                           ;#
+   162  2148  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   163  2150  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   164  2158  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   165  2160  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   166  2168  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   167  2170  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   168  2178  0000 0000 0000     	db	0,0,0,0,0,0,0,0	;#
+      +       0000 0000 0000     
+      +       0000 0000          
+   169                           ;#
+   170                           ;#
+   171                           ;#
+   172                           ;#
+   173  2180  0061 0070 0072     	db	97,112,114,115,116,114,97,99	;#
+      +       0073 0074 0072     
+      +       0061 0063          
+   174  2188  006B 0065 0072     	db	107,101,114,45,48,46,49,50	;#
+      +       002D 0030 002E     
+      +       0031 0032          
+   175                           ;#
+   176                           ;#
+   177                           ;#
+   178  2190  002D 0031 0036     	db	45,49,54,102,54,52,56,0	;#
+      +       0066 0036 0034     
+      +       0038 0000          
+   179                           
+   180                           	psect	rdata_0
+   181                           ;#
+   182  005A                     _course
+   183  005A                     	ds	1
+   184  005B                     	ds	1
+   185  005C                     	ds	1
+   186  005D                     _speed
+   187  005D                     	ds	1
+   188  005E                     	ds	1
+   189  005F                     	ds	1
+   190  0060                     _btextinterval
+   191  0060                     	ds	1
+   192  0061                     _sb_last_heading
+   193  0061                     	ds	2
+   194                           
+   195                           	psect	idata_0
+   196  07F7  3430               	retlw	48
+   197  07F8  3430               	retlw	48
+   198  07F9  3430               	retlw	48
+   199  07FA  3430               	retlw	48
+   200  07FB  3430               	retlw	48
+   201  07FC  3430               	retlw	48
+   202  07FD  3401               	retlw	1
+   203  07FE  34FF               	retlw	255
+   204  07FF  34FF               	retlw	255
+   205                           
+   206                           	psect	text1
+   207                           ;aprstracker.c: 68: char eep_read(char addr)
+   208                           ;aprstracker.c: 69: {
+   209  023D                     _eep_read
+   210                           ;aprstracker.c: 79: T0IE = 0;
+   211  023D  128B               	bcf	11,5
+   212  023E  1683               	bsf	3,5	;Bank 1 ;#
+   213  023F  009B               	movwf	27	;W contains the address to read ;#
+   214  0240  141C               	bsf	28,0	;Read EE ;#
+   215  0241  081A               	movf	26,w	;Move data to W ;#
+   216                           ;aprstracker.c: 91: T0IE = 1;
+   217  0242  168B               	bsf	11,5
+   218                           ;aprstracker.c: 93: }
+   219  0243  1283               	bcf	3,5
+   220  0244  0008               	return
+   221                           
+   222                           	psect	intcode
+   223                           ;aprstracker.c: 103: interrupt void modem_isr(v
+      +                          oid)
+   224                           ;aprstracker.c: 104: {
+   225  0008                     _modem_isr
+   226  0008                     int_func
+   227  0008  082B               	movf	_modem_dly,w	;#
+   228  0009  0081               	movwf	1	;#
+   229                           ;#
+   230  000A  0AAA               	incf	_modem_cnt	;#
+   231  000B  0AAC               	incf	_modem_wave	;#
+   232                           ;#
+   233  000C  3000               	movlw	high get_wave	;#
+   234  000D  008A               	movwf	10	;#
+   235  000E  082C               	movf	_modem_wave,w	;#
+   236  000F  391F               	andlw	31	;#
+   237  0010  2014               	call	get_wave	;#
+   238                           ;#
+   239                           ;#
+   240                           ;#
+   241  0011  0086               	movwf	6	;#
+   242                           ;#
+   243  0012  110B               	bcf	11,2	;#
+   244                           ;aprstracker.c: 124: return;
+   245  0013  2835               	goto	l6
+   246                           ;#
+   247  0014                     get_wave
+   248                           ;#
+   249  0014  0782               	addwf	2	;#
+   250  0015  3408               	retlw	8	;#
+   251  0016  3409               	retlw	9	;#
+   252  0017  340A               	retlw	10	;#
+   253  0018  340C               	retlw	12	;#
+   254  0019  340D               	retlw	13	;#
+   255  001A  340E               	retlw	14	;#
+   256  001B  340E               	retlw	14	;#
+   257  001C  340F               	retlw	15	;#
+   258                           ;#
+   259  001D  340F               	retlw	15	;#
+   260  001E  340F               	retlw	15	;#
+   261  001F  340E               	retlw	14	;#
+   262  0020  340E               	retlw	14	;#
+   263  0021  340D               	retlw	13	;#
+   264  0022  340C               	retlw	12	;#
+   265  0023  340A               	retlw	10	;#
+   266  0024  3409               	retlw	9	;#
+   267                           ;#
+   268  0025  3408               	retlw	8	;#
+   269  0026  3406               	retlw	6	;#
+   270  0027  3405               	retlw	5	;#
+   271  0028  3403               	retlw	3	;#
+   272  0029  3402               	retlw	2	;#
+   273  002A  3401               	retlw	1	;#
+   274  002B  3401               	retlw	1	;#
+   275  002C  3400               	retlw	0	;#
+   276                           ;#
+   277  002D  3400               	retlw	0	;#
+   278  002E  3400               	retlw	0	;#
+   279  002F  3401               	retlw	1	;#
+   280  0030  3401               	retlw	1	;#
+   281  0031  3402               	retlw	2	;#
+   282  0032  3403               	retlw	3	;#
+   283  0033  3405               	retlw	5	;#
+   284  0034  3406               	retlw	6	;#
+   285                           ;aprstracker.c: 165: }
+   286  0035                     l6
+   287  0035  1283               	bcf	3,5
+   288                           
+   289                           	psect	intsave_0
+   290  0066                     saved_w
+   291  0066                     	ds	1
+   292                           
+   293                           	psect	intret
+   294  0036                     int_restore
+   295  0036  0865               	movf	saved_status,w
+   296  0037  0083               	movwf	3
+   297  0038  0EE6               	swapf	saved_w
+   298  0039  0E66               	swapf	saved_w,w
+   299  003A  0009               	retfie
+   300                           
+   301                           	psect	intentry
+   302  0004                     int_entry
+   303  0004  00E6               	movwf	saved_w
+   304  0005  0803               	movf	3,w
+   305  0006  0183               	clrf	3
+   306  0007  00E5               	movwf	saved_status
+   307                           
+   308                           	psect	intsave
+   309  0065                     saved_status
+   310  0065                     	ds	1
+   311                           
+   312                           	psect	text3
+   313                           ;aprstracker.c: 187: void ax25_putc(char c)
+   314                           ;aprstracker.c: 188: {
+   315  0374                     _ax25_putc
+   316                           ;aprstracker.c: 189: char i;
+   317                           ;	_i assigned to ?a_ax25_putc+0
+   318  0000                     _ax25_putc$i	set	?a_ax25_putc
+   319                           ;aprstracker.c: 190: asm(" clrwdt");
+   320  0374  0064               	clrwdt	;#
+   321                           ;aprstracker.c: 191: for (i=0; i<8; i++) {
+   322  0375  01D8               	clrf	?a_ax25_putc
+   323                           ;	_c assigned to ?a_ax25_putc+1
+   324  0000                     _ax25_putc$c	set	?a_ax25_putc+1
+   325                           ;_c stored from w
+   326  0376  00D9               	movwf	?a_ax25_putc+1
+   327  0377  3008               	movlw	8
+   328  0378  0258               	subwf	?a_ax25_putc,w
+   329                           ;aprstracker.c: 192: sendbit = c & 1;
+   330  0379  1283               	bcf	3,5
+   331  037A  1803               	btfsc	3,0
+   332  037B  0008               	return
+   333  037C                     L12
+   334  037C  13A0               	bcf	_sendbit/(0+8),_sendbit& (0+7)
+   335  037D  1859               	btfsc	?a_ax25_putc+1,0
+   336  037E  17A0               	bsf	_sendbit/(0+8),_sendbit& (0+7)
+   337  037F  1003               	bcf	3,0	;#
+   338                           ;aprstracker.c: 193: if (crc) {
+   339  0380  1F20               	btfss	_crc/(0+8),_crc& (0+7)
+   340  0381  2B97               	goto	L17
+   341  0382  0CA8               	rrf	_crch	;#
+   342  0383  0CA9               	rrf	_crcl	;#
+   343                           ;aprstracker.c: 199:    if (CARRY != sendbit) {
+   344  0384  1FA0               	btfss	_sendbit/(0+8),_sendbit& (0+7)
+   345  0385  2B88               	goto	u50
+   346  0386  3001               	movlw	1
+   347  0387  2B89               	goto	u52
+   348  0388                     u50
+   349  0388  3000               	movlw	0
+   350  0389                     u52
+   351  0389  00F0               	movwf	btemp
+   352  038A  1C03               	btfss	3,0
+   353  038B  2B8E               	goto	u60
+   354  038C  3001               	movlw	1
+   355  038D  2B8F               	goto	u62
+   356  038E                     u60
+   357  038E  3000               	movlw	0
+   358  038F                     u62
+   359  038F  06F0               	xorwf	btemp
+   360  0390  1903               	btfsc	3,2
+   361  0391  2B96               	goto	l11
+   362                           ;aprstracker.c: 200: crch ^= 0x84;
+   363  0392  3084               	movlw	-124
+   364  0393  06A8               	xorwf	_crch
+   365                           ;aprstracker.c: 201: crcl ^= 0x08;
+   366  0394  3008               	movlw	8
+   367  0395  06A9               	xorwf	_crcl
+   368                           ;aprstracker.c: 202: }
+   369                           ;aprstracker.c: 203: }
+   370                           ;aprstracker.c: 204: c = c >> 1;
+   371  0396                     l11
+   372  0396  1003               	bcf	3,0
+   373  0397                     L17
+   374  0397  1283               	bcf	3,5
+   375  0398  0CD9               	rrf	?a_ax25_putc+1
+   376                           ;aprstracker.c: 205: do { if (tone1200) while (
+      +                          modem_cnt < 32); else while (modem_cnt < 58); m
+      +                          odem_cnt=0; } while (0);
+   377  0399  1E21               	btfss	_tone1200/(0+8),_tone1200& (0+7)
+   378  039A  2BA0               	goto	l21
+   379  039B                     l17
+   380  039B  3020               	movlw	32
+   381  039C  022A               	subwf	_modem_cnt,w
+   382  039D  1803               	btfsc	3,0
+   383  039E  2BA4               	goto	L4
+   384  039F  2B9B               	goto	l17
+   385  03A0                     l21
+   386  03A0  303A               	movlw	58
+   387  03A1  022A               	subwf	_modem_cnt,w
+   388  03A2  1C03               	btfss	3,0
+   389  03A3  2BA0               	goto	l21
+   390  03A4                     L4
+   391  03A4  01AA               	clrf	_modem_cnt
+   392                           ;aprstracker.c: 206: if (sendbit) {
+   393  03A5  1FA0               	btfss	_sendbit/(0+8),_sendbit& (0+7)
+   394  03A6  2BBA               	goto	L8
+   395                           ;aprstracker.c: 207: stuff_cnt++;
+   396  03A7  0AAE               	incf	_stuff_cnt
+   397                           ;aprstracker.c: 208: if (stuffing && stuff_cnt 
+      +                          == 5) {
+   398  03A8  1DA1               	btfss	_stuffing/(0+8),_stuffing& (0+7)
+   399  03A9  2BC3               	goto	L18
+   400  03AA  082E               	movf	_stuff_cnt,w
+   401  03AB  3A05               	xorlw	5
+   402  03AC  1D03               	btfss	3,2
+   403  03AD  2BC3               	goto	L18
+   404                           ;aprstracker.c: 209: do { if (tone1200) while (
+      +                          modem_cnt < 32); else while (modem_cnt < 58); m
+      +                          odem_cnt=0; } while (0);
+   405  03AE  1E21               	btfss	_tone1200/(0+8),_tone1200& (0+7)
+   406  03AF  2BB5               	goto	l34
+   407  03B0                     l30
+   408  03B0  3020               	movlw	32
+   409  03B1  022A               	subwf	_modem_cnt,w
+   410  03B2  1803               	btfsc	3,0
+   411  03B3  2BB9               	goto	L5
+   412  03B4  2BB0               	goto	l30
+   413  03B5                     l34
+   414  03B5  303A               	movlw	58
+   415  03B6  022A               	subwf	_modem_cnt,w
+   416  03B7  1C03               	btfss	3,0
+   417  03B8  2BB5               	goto	l34
+   418  03B9                     L5
+   419  03B9  01AA               	clrf	_modem_cnt
+   420                           ;aprstracker.c: 210: do { if (!tone1200) modem_
+      +                          dly = 6 - (61); else modem_dly = 6 - (32); tone
+      +                          1200=!tone1200; stuff_cnt = 0; } while (0);
+   421                           ;aprstracker.c: 211: }
+   422                           ;aprstracker.c: 212: } else
+   423                           ;aprstracker.c: 213: do { if (!tone1200) modem_
+      +                          dly = 6 - (61); else modem_dly = 6 - (32); tone
+      +                          1200=!tone1200; stuff_cnt = 0; } while (0);
+   424  03BA                     L8
+   425  03BA  1A21               	btfsc	_tone1200/(0+8),_tone1200& (0+7)
+   426  03BB  2BBE               	goto	l46
+   427  03BC  30C9               	movlw	-55
+   428  03BD  2BBF               	goto	L15
+   429  03BE                     l46
+   430  03BE  30E6               	movlw	-26
+   431  03BF                     L15
+   432  03BF  00AB               	movwf	_modem_dly
+   433  03C0  3010               	movlw	(0+1) shl (_tone1200& (0+7))
+   434  03C1  06A1               	xorwf	(_tone1200/(0+8))& (0+127)
+   435  03C2  01AE               	clrf	_stuff_cnt
+   436                           ;aprstracker.c: 214: }
+   437  03C3                     L18
+   438  03C3  0AD8               	incf	?a_ax25_putc
+   439  03C4  3008               	movlw	8
+   440  03C5  0258               	subwf	?a_ax25_putc,w
+   441  03C6  1803               	btfsc	3,0
+   442  03C7  0008               	return
+   443  03C8  2B7C               	goto	L12
+   444                           
+   445                           	psect	text4
+   446                           ;aprstracker.c: 218: unsigned char w;
+   447                           ;aprstracker.c: 219: char getch(void)
+   448                           ;aprstracker.c: 220: {
+   449  033B                     _getch
+   450                           ;aprstracker.c: 221: char c;
+   451                           ;	_c assigned to ?a_getch+0
+   452  0000                     _getch$c	set	?a_getch
+   453                           ;aprstracker.c: 222: char i;
+   454                           ;	_i assigned to ?a_getch+1
+   455  0000                     _getch$i	set	?a_getch+1
+   456                           ;aprstracker.c: 224: while ((!RXD && ser_pol) |
+      +                          | (RXD && !ser_pol)) {
+   457  033B  2B42               	goto	l49
+   458  033C                     l50
+   459                           ;aprstracker.c: 225: asm(" clrwdt");
+   460  033C  0064               	clrwdt	;#
+   461                           ;aprstracker.c: 226: if (RXDET)
+   462  033D  1E06               	btfss	6,4
+   463  033E  2B41               	goto	L22
+   464                           ;aprstracker.c: 227: LSTAT = 0;
+   465  033F  1005               	bcf	5,0
+   466                           ;aprstracker.c: 228: else
+   467  0340  2B43               	goto	L23
+   468                           ;aprstracker.c: 229: LSTAT = 1;
+   469  0341                     L22
+   470  0341  1405               	bsf	5,0
+   471                           ;aprstracker.c: 230: }
+   472  0342                     l49
+   473  0342  1283               	bcf	3,5
+   474  0343                     L23
+   475  0343  1A05               	btfsc	5,4
+   476  0344  2B47               	goto	u240
+   477  0345  18A1               	btfsc	_ser_pol/(0+8),_ser_pol& (0+7)
+   478  0346  2B3C               	goto	l50
+   479  0347                     u240
+   480  0347  1E05               	btfss	5,4
+   481  0348  2B4B               	goto	L29
+   482  0349  1CA1               	btfss	_ser_pol/(0+8),_ser_pol& (0+7)
+   483  034A  2B3C               	goto	l50
+   484                           ;aprstracker.c: 231: c = 0;
+   485  034B                     L29
+   486  034B  01D7               	clrf	?a_getch
+   487                           ;aprstracker.c: 233: w = 40;
+   488  034C  3028               	movlw	40
+   489  034D  00B0               	movwf	_w
+   490  034E                     getch_wait1
+   491                           ;#
+   492  034E  0BB0               	decfsz	_w	;#
+   493  034F  2B4E               	goto	getch_wait1	;#
+   494                           ;aprstracker.c: 240:  i = 8;
+   495  0350  3008               	movlw	8
+   496  0351  00D8               	movwf	?a_getch+1
+   497                           ;aprstracker.c: 241: do {
+   498  0352                     l56
+   499                           ;aprstracker.c: 242: asm(" clrwdt");
+   500  0352  0064               	clrwdt	;#
+   501                           ;aprstracker.c: 243: if (ser4800bd)
+   502  0353  1283               	bcf	3,5
+   503  0354  1C21               	btfss	_ser4800bd/(0+8),_ser4800bd& (0+7)
+   504  0355  2B58               	goto	l57
+   505                           ;aprstracker.c: 244: w = 170;
+   506  0356  30AA               	movlw	-86
+   507  0357  2B59               	goto	L27
+   508                           ;aprstracker.c: 245: else
+   509  0358                     l57
+   510                           ;aprstracker.c: 246: w = 80;
+   511  0358  3050               	movlw	80
+   512  0359                     L27
+   513  0359  00B0               	movwf	_w
+   514  035A                     getch_wait2
+   515                           ;#
+   516  035A  0BB0               	decfsz	_w	;#
+   517  035B  2B5A               	goto	getch_wait2	;#
+   518                           ;aprstracker.c: 253:   c /= 2;
+   519  035C  1003               	bcf	3,0
+   520  035D  1283               	bcf	3,5
+   521  035E  0CD7               	rrf	?a_getch
+   522                           ;aprstracker.c: 254: if (ser_pol) {
+   523  035F  1CA1               	btfss	_ser_pol/(0+8),_ser_pol& (0+7)
+   524  0360  2B64               	goto	L24
+   525                           ;aprstracker.c: 255: if (!RXD)
+   526  0361  1A05               	btfsc	5,4
+   527  0362  2B67               	goto	L25
+   528  0363  2B66               	goto	u320
+   529                           ;aprstracker.c: 256: c |= 128;
+   530                           ;aprstracker.c: 257: } else {
+   531                           ;aprstracker.c: 258: if (RXD)
+   532  0364                     L24
+   533  0364  1E05               	btfss	5,4
+   534  0365  2B67               	goto	L25
+   535  0366                     u320
+   536                           ;aprstracker.c: 259: c |= 128;
+   537  0366  17D7               	bsf	?a_getch,7
+   538                           ;aprstracker.c: 260: }
+   539                           ;aprstracker.c: 261: } while (--i);
+   540  0367                     L25
+   541  0367  0BD8               	decfsz	?a_getch+1
+   542  0368  2B52               	goto	l56
+   543                           ;aprstracker.c: 263: if (ser4800bd)
+   544  0369  1C21               	btfss	_ser4800bd/(0+8),_ser4800bd& (0+7)
+   545  036A  2B6D               	goto	l63
+   546                           ;aprstracker.c: 264: w = 170;
+   547  036B  30AA               	movlw	-86
+   548  036C  2B6E               	goto	L28
+   549                           ;aprstracker.c: 265: else
+   550  036D                     l63
+   551                           ;aprstracker.c: 266: w = 80;
+   552  036D  3050               	movlw	80
+   553  036E                     L28
+   554  036E  00B0               	movwf	_w
+   555  036F                     getch_wait3
+   556                           ;#
+   557  036F  0BB0               	decfsz	_w	;#
+   558  0370  2B6F               	goto	getch_wait3	;#
+   559                           ;aprstracker.c: 273:  return c;
+   560  0371  1283               	bcf	3,5
+   561  0372  0857               	movf	?a_getch,w
+   562                           ;aprstracker.c: 274: }
+   563  0373  0008               	return
+   564                           
+   565                           	psect	text5
+   566                           ;aprstracker.c: 277: void putch(char val)
+   567                           ;aprstracker.c: 278: {
+   568  0297                     _putch
+   569                           ;aprstracker.c: 279: char i;
+   570                           ;	_i assigned to ?a_putch+0
+   571  0000                     _putch$i	set	?a_putch
+   572                           ;aprstracker.c: 281: TXD = ser_pol;
+   573  0297  1185               	bcf	5,3
+   574  0298  18A1               	btfsc	_ser_pol/(0+8),_ser_pol& (0+7)
+   575  0299  1585               	bsf	5,3
+   576                           ;aprstracker.c: 283: i = 10;
+   577                           ;	_val assigned to ?a_putch+1
+   578  0000                     _putch$val	set	?a_putch+1
+   579                           ;_val stored from w
+   580  029A  1283               	bcf	3,5
+   581  029B  00D9               	movwf	?a_putch+1
+   582  029C  300A               	movlw	10
+   583  029D  00D8               	movwf	?a_putch
+   584                           ;aprstracker.c: 284: do {
+   585                           ;aprstracker.c: 285: if (ser4800bd)
+   586  029E                     L32
+   587  029E  1C21               	btfss	_ser4800bd/(0+8),_ser4800bd& (0+7)
+   588  029F  2AA2               	goto	l69
+   589                           ;aprstracker.c: 286: w = 170;
+   590  02A0  30AA               	movlw	-86
+   591  02A1  2AA3               	goto	L33
+   592                           ;aprstracker.c: 287: else
+   593  02A2                     l69
+   594                           ;aprstracker.c: 288: w = 80;
+   595  02A2  3050               	movlw	80
+   596  02A3                     L33
+   597  02A3  00B0               	movwf	_w
+   598  02A4                     putch_wait
+   599                           ;#
+   600  02A4  0BB0               	decfsz	_w	;#
+   601  02A5  2AA4               	goto	putch_wait	;#
+   602                           ;aprstracker.c: 294:   asm(" clrwdt");
+   603  02A6  0064               	clrwdt	;#
+   604                           ;aprstracker.c: 295: if (val & 1)
+   605  02A7  1283               	bcf	3,5
+   606  02A8  1C59               	btfss	?a_putch+1,0
+   607  02A9  2AAF               	goto	L31
+   608                           ;aprstracker.c: 296: TXD = !ser_pol;
+   609  02AA  1585               	bsf	5,3
+   610  02AB  1CA1               	btfss	_ser_pol/(0+8),_ser_pol& (0+7)
+   611  02AC  2AB3               	goto	l72
+   612  02AD  1185               	bcf	5,3
+   613                           ;aprstracker.c: 297: else
+   614  02AE  2AB3               	goto	l72
+   615                           ;aprstracker.c: 298: TXD = ser_pol;
+   616  02AF                     L31
+   617  02AF  1185               	bcf	5,3
+   618  02B0  1CA1               	btfss	_ser_pol/(0+8),_ser_pol& (0+7)
+   619  02B1  2AB3               	goto	l72
+   620  02B2  1585               	bsf	5,3
+   621  02B3                     l72
+   622                           ;aprstracker.c: 299: val = (val >> 1) | 0x80;
+   623  02B3  1403               	bsf	3,0
+   624  02B4  1283               	bcf	3,5
+   625  02B5  0CD9               	rrf	?a_putch+1
+   626                           ;aprstracker.c: 300: } while (--i);
+   627  02B6  0BD8               	decfsz	?a_putch
+   628  02B7  2A9E               	goto	L32
+   629  02B8  0008               	return
+   630                           
+   631                           	psect	text6
+   632                           ;aprstracker.c: 304: void ax25_send(void)
+   633                           ;aprstracker.c: 305: {
+   634  03C9                     _ax25_send
+   635                           ;aprstracker.c: 306: unsigned char i, j;
+   636                           ;	_i assigned to ?a_ax25_send+0
+   637  0000                     _ax25_send$i	set	?a_ax25_send
+   638                           ;	_j assigned to ?a_ax25_send+1
+   639  0000                     _ax25_send$j	set	?a_ax25_send+1
+   640                           ;aprstracker.c: 311: if (!SW1)
+   641  03C9  1F06               	btfss	6,6
+   642                           ;aprstracker.c: 312: LSTAT = 1;
+   643  03CA  1405               	bsf	5,0
+   644                           ;aprstracker.c: 315: for (i=0; i<255; i++) {
+   645  03CB  1283               	bcf	3,5
+   646  03CC  01D6               	clrf	?a_ax25_send
+   647  03CD  2BD5               	goto	L61
+   648                           ;aprstracker.c: 316: for (j=0; j<255; j++) {
+   649  03CE                     L39
+   650  03CE  01D7               	clrf	?a_ax25_send+1
+   651  03CF  2BD2               	goto	L59
+   652  03D0                     l78
+   653                           ;aprstracker.c: 317: asm(" clrwdt");
+   654  03D0  0064               	clrwdt	;#
+   655                           ;aprstracker.c: 318: }
+   656  03D1  0AD7               	incf	?a_ax25_send+1
+   657  03D2                     L59
+   658  03D2  0F57               	incfsz	?a_ax25_send+1,w
+   659  03D3  2BD0               	goto	l78
+   660                           ;aprstracker.c: 319: }
+   661  03D4  0AD6               	incf	?a_ax25_send
+   662  03D5                     L61
+   663  03D5  0F56               	incfsz	?a_ax25_send,w
+   664  03D6  2BCE               	goto	L39
+   665                           ;aprstracker.c: 320: for (i=1; i; i++) {
+   666  03D7  01D6               	clrf	?a_ax25_send
+   667  03D8                     L36
+   668  03D8  0AD6               	incf	?a_ax25_send
+   669  03D9  1903               	btfsc	3,2
+   670  03DA  2BED               	goto	l82
+   671                           ;aprstracker.c: 321: asm(" clrwdt");
+   672  03DB  0064               	clrwdt	;#
+   673                           ;aprstracker.c: 322: if (!RXDET && SW1) {
+   674  03DC  1E06               	btfss	6,4
+   675  03DD  1F06               	btfss	6,6
+   676  03DE  2BE3               	goto	L53
+   677                           ;aprstracker.c: 323: i=1;
+   678  03DF  01D6               	clrf	?a_ax25_send
+   679  03E0  0AD6               	incf	?a_ax25_send
+   680                           ;aprstracker.c: 324: LSTAT = 1;
+   681  03E1  1405               	bsf	5,0
+   682                           ;aprstracker.c: 325: }
+   683                           ;aprstracker.c: 326: else if (SW1)
+   684  03E2  2BE6               	goto	L43
+   685  03E3                     L53
+   686  03E3  1F06               	btfss	6,6
+   687  03E4  2BE6               	goto	L43
+   688                           ;aprstracker.c: 327: LSTAT = 0;
+   689  03E5  1005               	bcf	5,0
+   690                           ;aprstracker.c: 328: for (j=0; j<32; j++);
+   691  03E6                     L43
+   692  03E6  01D7               	clrf	?a_ax25_send+1
+   693  03E7                     L60
+   694  03E7  3020               	movlw	32
+   695  03E8  0257               	subwf	?a_ax25_send+1,w
+   696  03E9  1803               	btfsc	3,0
+   697  03EA  2BD8               	goto	L36
+   698  03EB  0AD7               	incf	?a_ax25_send+1
+   699  03EC  2BE7               	goto	L60
+   700                           ;aprstracker.c: 329: }
+   701  03ED                     l82
+   702                           ;aprstracker.c: 333: if (eep_read(0x1b) & 1)
+   703  03ED  301B               	movlw	27
+   704  03EE  223D               	call	_eep_read
+   705  03EF  00F0               	movwf	btemp
+   706  03F0  1C70               	btfss	btemp,0
+   707  03F1  2BF4               	goto	l91
+   708                           ;aprstracker.c: 334: CSE_SPD_enable = 1;
+   709  03F2  1420               	bsf	_CSE_SPD_enable/(0+8),_CSE_SPD_enable& (0+
+      +                          7)
+   710                           ;aprstracker.c: 335: else
+   711  03F3  2BF6               	goto	l92
+   712  03F4                     l91
+   713                           ;aprstracker.c: 336: CSE_SPD_enable = 0;
+   714  03F4  1283               	bcf	3,5
+   715  03F5  1020               	bcf	_CSE_SPD_enable/(0+8),_CSE_SPD_enable& (0+
+      +                          7)
+   716  03F6                     l92
+   717                           ;aprstracker.c: 338: if ((eep_read(0x1b)&4) && 
+      +                          (GGA))
+   718  03F6  301B               	movlw	27
+   719  03F7  1283               	bcf	3,5
+   720  03F8  223D               	call	_eep_read
+   721  03F9  00F0               	movwf	btemp
+   722  03FA  1970               	btfsc	btemp,2
+   723  03FB  1CA0               	btfss	_GGA/(0+8),_GGA& (0+7)
+   724  03FC  2BFF               	goto	l93
+   725                           ;aprstracker.c: 339: altitude_enable = 1;
+   726  03FD  1620               	bsf	_altitude_enable/(0+8),_altitude_enable& (
+      +                          0+7)
+   727                           ;aprstracker.c: 340: else
+   728  03FE  2C01               	goto	l94
+   729  03FF                     l93
+   730                           ;aprstracker.c: 341: altitude_enable = 0;
+   731  03FF  1283               	bcf	3,5
+   732  0400  1220               	bcf	_altitude_enable/(0+8),_altitude_enable& (
+      +                          0+7)
+   733  0401                     l94
+   734                           ;aprstracker.c: 346: if (!(btextinterval--)) {
+   735  0401  1283               	bcf	3,5
+   736  0402  03E0               	decf	_btextinterval
+   737  0403  0F60               	incfsz	_btextinterval,w
+   738  0404  2C09               	goto	L47
+   739                           ;aprstracker.c: 347: btextinterval = eep_read(0
+      +                          x16);
+   740  0405  3016               	movlw	22
+   741  0406  223D               	call	_eep_read
+   742  0407  00E0               	movwf	_btextinterval
+   743                           ;aprstracker.c: 348: }
+   744                           ;aprstracker.c: 357: if (!btextinterval) {
+   745  0408  1283               	bcf	3,5
+   746  0409                     L47
+   747  0409  08E0               	movf	_btextinterval
+   748  040A  1D03               	btfss	3,2
+   749  040B  2C17               	goto	l96
+   750                           ;aprstracker.c: 358: if (eep_read(0x20) & 128)
+   751  040C  3020               	movlw	32
+   752  040D  223D               	call	_eep_read
+   753  040E  00F0               	movwf	btemp
+   754  040F  1BF0               	btfsc	btemp,7
+   755                           ;aprstracker.c: 359: CSE_SPD_enable = 0;
+   756  0410  1020               	bcf	_CSE_SPD_enable/(0+8),_CSE_SPD_enable& (0+
+      +                          7)
+   757                           ;aprstracker.c: 360: if (eep_read(0x20+1) & 128
+      +                          )
+   758  0411  3021               	movlw	33
+   759  0412  1283               	bcf	3,5
+   760  0413  223D               	call	_eep_read
+   761  0414  00F0               	movwf	btemp
+   762  0415  1BF0               	btfsc	btemp,7
+   763                           ;aprstracker.c: 361: altitude_enable = 0;
+   764  0416  1220               	bcf	_altitude_enable/(0+8),_altitude_enable& (
+      +                          0+7)
+   765                           ;aprstracker.c: 362: }
+   766                           ;aprstracker.c: 365: if (eep_read(0x15) == 255)
+   767  0417                     l96
+   768  0417  3015               	movlw	21
+   769  0418  1283               	bcf	3,5
+   770  0419  223D               	call	_eep_read
+   771  041A  00F0               	movwf	btemp
+   772  041B  0F70               	incfsz	btemp,w
+   773  041C  2C20               	goto	l99
+   774                           ;aprstracker.c: 366: proppath=3;
+   775  041D  3003               	movlw	3
+   776  041E  00AD               	movwf	_proppath
+   777                           ;aprstracker.c: 367: else if ( proppath == eep_
+      +                          read(0x15) )
+   778  041F  2C2A               	goto	l100
+   779  0420                     l99
+   780  0420  3015               	movlw	21
+   781  0421  1283               	bcf	3,5
+   782  0422  223D               	call	_eep_read
+   783  0423  062D               	xorwf	_proppath,w
+   784  0424  1D03               	btfss	3,2
+   785  0425  2C28               	goto	l101
+   786                           ;aprstracker.c: 368: proppath=0;
+   787  0426  01AD               	clrf	_proppath
+   788                           ;aprstracker.c: 369: else
+   789  0427  2C2A               	goto	l100
+   790  0428                     l101
+   791                           ;aprstracker.c: 370: proppath++;
+   792  0428  1283               	bcf	3,5
+   793  0429  0AAD               	incf	_proppath
+   794  042A                     l100
+   795                           ;aprstracker.c: 372: PTT = 1;
+   796  042A  1283               	bcf	3,5
+   797  042B  1505               	bsf	5,2
+   798                           ;aprstracker.c: 374: tone1200 = 1;
+   799  042C  1621               	bsf	_tone1200/(0+8),_tone1200& (0+7)
+   800                           ;aprstracker.c: 375: PSA = 1;
+   801  042D  1683               	bsf	3,5
+   802  042E  1581               	bsf	1,3
+   803                           ;aprstracker.c: 376: T0CS = 0;
+   804  042F  1281               	bcf	1,5
+   805                           ;aprstracker.c: 377: TMR0 = 6 - (61);
+   806  0430  30C9               	movlw	-55
+   807  0431  1283               	bcf	3,5
+   808  0432  0081               	movwf	1	;volatile
+   809                           ;aprstracker.c: 379: GIE = 1;
+   810  0433  178B               	bsf	11,7
+   811                           ;aprstracker.c: 381: crcl = 0xff;
+   812  0434  30FF               	movlw	-1
+   813  0435  00A9               	movwf	_crcl
+   814                           ;aprstracker.c: 382: crch = 0xff;
+   815  0436  00A8               	movwf	_crch
+   816                           ;aprstracker.c: 383: crc = 0;
+   817  0437  1320               	bcf	_crc/(0+8),_crc& (0+7)
+   818                           ;aprstracker.c: 386: for (i=eep_read(0x1d); i; 
+      +                          i--)
+   819  0438  301D               	movlw	29
+   820  0439  223D               	call	_eep_read
+   821  043A  00D6               	movwf	?a_ax25_send
+   822  043B                     l106
+   823  043B  1283               	bcf	3,5
+   824  043C  08D6               	movf	?a_ax25_send
+   825                           ;aprstracker.c: 387: ax25_putc(0x7e);
+   826  043D  307E               	movlw	126
+   827  043E  1903               	btfsc	3,2
+   828  043F  2C43               	goto	L62
+   829  0440  2374               	call	_ax25_putc
+   830  0441  03D6               	decf	?a_ax25_send
+   831  0442  2C3B               	goto	l106
+   832                           ;aprstracker.c: 388: ax25_putc(0x7e);
+   833  0443                     L62
+   834  0443  2374               	call	_ax25_putc
+   835                           ;aprstracker.c: 390: crc = 1;
+   836  0444  1720               	bsf	_crc/(0+8),_crc& (0+7)
+   837                           ;aprstracker.c: 391: stuffing = 1;
+   838  0445  15A1               	bsf	_stuffing/(0+8),_stuffing& (0+7)
+   839                           ;aprstracker.c: 392: stuff_cnt = 0;
+   840  0446  01AE               	clrf	_stuff_cnt
+   841                           ;aprstracker.c: 395: i=0;
+   842  0447  01D6               	clrf	?a_ax25_send
+   843                           ;aprstracker.c: 396: do {
+   844  0448                     l109
+   845                           ;aprstracker.c: 397: j=eep_read(i);
+   846  0448  1283               	bcf	3,5
+   847  0449  0856               	movf	?a_ax25_send,w
+   848  044A  223D               	call	_eep_read
+   849  044B  00D7               	movwf	?a_ax25_send+1
+   850                           ;aprstracker.c: 398: i++;
+   851  044C  0AD6               	incf	?a_ax25_send
+   852                           ;aprstracker.c: 399: if ((i == 14) && (proppath
+      +                           == 0))
+   853  044D  0856               	movf	?a_ax25_send,w
+   854  044E  3A0E               	xorlw	14
+   855  044F  1D03               	btfss	3,2
+   856  0450  2C55               	goto	l110
+   857  0451  08AD               	movf	_proppath
+   858  0452  1D03               	btfss	3,2
+   859  0453  2C55               	goto	l110
+   860                           ;aprstracker.c: 400: j++;
+   861  0454  0AD7               	incf	?a_ax25_send+1
+   862                           ;aprstracker.c: 401: ax25_putc(j);
+   863  0455                     l110
+   864  0455  1283               	bcf	3,5
+   865  0456  0857               	movf	?a_ax25_send+1,w
+   866  0457  2374               	call	_ax25_putc
+   867                           ;aprstracker.c: 402: } while (i != 14);
+   868  0458  0856               	movf	?a_ax25_send,w
+   869  0459  3A0E               	xorlw	14
+   870  045A  1903               	btfsc	3,2
+   871  045B  2C6B               	goto	l111
+   872  045C  2C48               	goto	l109
+   873                           ;aprstracker.c: 405: while ((i != 21) && proppa
+      +                          th >= 1) {
+   874                           ;aprstracker.c: 406: j=eep_read(i++);
+   875  045D                     L55
+   876  045D  0AD6               	incf	?a_ax25_send
+   877  045E  0356               	decf	?a_ax25_send,w
+   878  045F  223D               	call	_eep_read
+   879  0460  00D7               	movwf	?a_ax25_send+1
+   880                           ;aprstracker.c: 407: if ((i == 21) && (proppath
+      +                           == 1))
+   881  0461  0856               	movf	?a_ax25_send,w
+   882  0462  3A15               	xorlw	21
+   883  0463  1D03               	btfss	3,2
+   884  0464  2C68               	goto	l114
+   885  0465  0B2D               	decfsz	_proppath,w
+   886  0466  2C68               	goto	l114
+   887                           ;aprstracker.c: 408: j++;
+   888  0467  0AD7               	incf	?a_ax25_send+1
+   889                           ;aprstracker.c: 409: ax25_putc(j);
+   890  0468                     l114
+   891  0468  1283               	bcf	3,5
+   892  0469  0857               	movf	?a_ax25_send+1,w
+   893  046A  2374               	call	_ax25_putc
+   894                           ;aprstracker.c: 410: }
+   895  046B                     l111
+   896  046B  1283               	bcf	3,5
+   897  046C  0856               	movf	?a_ax25_send,w
+   898  046D  3A15               	xorlw	21
+   899  046E  1903               	btfsc	3,2
+   900  046F  2C74               	goto	l113
+   901  0470  3001               	movlw	1
+   902  0471  022D               	subwf	_proppath,w
+   903  0472  1803               	btfsc	3,0
+   904  0473  2C5D               	goto	L55
+   905  0474                     l113
+   906                           ;aprstracker.c: 413: if (proppath >= 2) {
+   907  0474  3002               	movlw	2
+   908  0475  022D               	subwf	_proppath,w
+   909  0476  1C03               	btfss	3,0
+   910  0477  2C81               	goto	L48
+   911                           ;aprstracker.c: 414: ax25_putc('W'<<1);
+   912  0478  30AE               	movlw	-82
+   913  0479  2374               	call	_ax25_putc
+   914                           ;aprstracker.c: 415: ax25_putc('I'<<1);
+   915  047A  3092               	movlw	-110
+   916  047B  2374               	call	_ax25_putc
+   917                           ;aprstracker.c: 416: ax25_putc('D'<<1);
+   918  047C  3088               	movlw	-120
+   919  047D  2374               	call	_ax25_putc
+   920                           ;aprstracker.c: 417: ax25_putc('E'<<1);
+   921  047E  308A               	movlw	-118
+   922  047F  2374               	call	_ax25_putc
+   923                           ;aprstracker.c: 418: }
+   924                           ;aprstracker.c: 419: if (proppath == 2) {
+   925  0480  1283               	bcf	3,5
+   926  0481                     L48
+   927  0481  082D               	movf	_proppath,w
+   928  0482  3A02               	xorlw	2
+   929  0483  1D03               	btfss	3,2
+   930  0484  2C8C               	goto	L49
+   931                           ;aprstracker.c: 420: ax25_putc('2'<<1);
+   932  0485  3064               	movlw	100
+   933  0486  2374               	call	_ax25_putc
+   934                           ;aprstracker.c: 421: ax25_putc(' '<<1);
+   935  0487  3040               	movlw	64
+   936  0488  2374               	call	_ax25_putc
+   937                           ;aprstracker.c: 422: ax25_putc(('1'<<1)+1);
+   938  0489  3063               	movlw	99
+   939  048A  2374               	call	_ax25_putc
+   940                           ;aprstracker.c: 423: }
+   941                           ;aprstracker.c: 424: if (proppath == 3) {
+   942  048B  1283               	bcf	3,5
+   943  048C                     L49
+   944  048C  082D               	movf	_proppath,w
+   945  048D  3A03               	xorlw	3
+   946  048E  1D03               	btfss	3,2
+   947  048F  2C97               	goto	L50
+   948                           ;aprstracker.c: 425: ax25_putc('2'<<1);
+   949  0490  3064               	movlw	100
+   950  0491  2374               	call	_ax25_putc
+   951                           ;aprstracker.c: 426: ax25_putc(' '<<1);
+   952  0492  3040               	movlw	64
+   953  0493  2374               	call	_ax25_putc
+   954                           ;aprstracker.c: 427: ax25_putc(('2'<<1)+1);
+   955  0494  3065               	movlw	101
+   956  0495  2374               	call	_ax25_putc
+   957                           ;aprstracker.c: 428: }
+   958                           ;aprstracker.c: 429: if (proppath == 4) {
+   959  0496  1283               	bcf	3,5
+   960  0497                     L50
+   961  0497  082D               	movf	_proppath,w
+   962  0498  3A04               	xorlw	4
+   963  0499  1D03               	btfss	3,2
+   964  049A  2CA2               	goto	L51
+   965                           ;aprstracker.c: 430: ax25_putc('3'<<1);
+   966  049B  3066               	movlw	102
+   967  049C  2374               	call	_ax25_putc
+   968                           ;aprstracker.c: 431: ax25_putc(' '<<1);
+   969  049D  3040               	movlw	64
+   970  049E  2374               	call	_ax25_putc
+   971                           ;aprstracker.c: 432: ax25_putc(('3'<<1)+1);
+   972  049F  3067               	movlw	103
+   973  04A0  2374               	call	_ax25_putc
+   974                           ;aprstracker.c: 433: }
+   975                           ;aprstracker.c: 434: if (proppath == 5) {
+   976  04A1  1283               	bcf	3,5
+   977  04A2                     L51
+   978  04A2  082D               	movf	_proppath,w
+   979  04A3  3A05               	xorlw	5
+   980  04A4  1D03               	btfss	3,2
+   981  04A5  2CAC               	goto	l119
+   982                           ;aprstracker.c: 435: ax25_putc('4'<<1);
+   983  04A6  3068               	movlw	104
+   984  04A7  2374               	call	_ax25_putc
+   985                           ;aprstracker.c: 436: ax25_putc(' '<<1);
+   986  04A8  3040               	movlw	64
+   987  04A9  2374               	call	_ax25_putc
+   988                           ;aprstracker.c: 437: ax25_putc(('4'<<1)+1);
+   989  04AA  3069               	movlw	105
+   990  04AB  2374               	call	_ax25_putc
+   991                           ;aprstracker.c: 438: }
+   992                           ;aprstracker.c: 441: ax25_putc(0x03);
+   993  04AC                     l119
+   994  04AC  3003               	movlw	3
+   995  04AD  1283               	bcf	3,5
+   996  04AE  2374               	call	_ax25_putc
+   997                           ;aprstracker.c: 442: ax25_putc(0xf0);
+   998  04AF  30F0               	movlw	-16
+   999  04B0  2374               	call	_ax25_putc
+  1000                           ;aprstracker.c: 444: if (status_now) {
+  1001  04B1  1D21               	btfss	_status_now/(0+8),_status_now& (0+7)
+  1002  04B2  2CD9               	goto	l120
+  1003                           ;aprstracker.c: 445: ax25_putc('>');
+  1004  04B3  303E               	movlw	62
+  1005  04B4  2374               	call	_ax25_putc
+  1006                           ;aprstracker.c: 446: i=0;
+  1007  04B5  01D6               	clrf	?a_ax25_send
+  1008                           ;aprstracker.c: 447: while (version_text[i])
+  1009  04B6                     l121
+  1010  04B6  3000               	movlw	_version_text shr (0+8)
+  1011  04B7  008A               	movwf	10
+  1012  04B8  1283               	bcf	3,5
+  1013  04B9  0856               	movf	?a_ax25_send,w
+  1014  04BA  2073               	call	((_version_text+-1)& (0+2047))| (($)& (0+
+      +                          -2048))
+  1015  04BB                     	pagesel	$
+  1016  04BB  3800               	iorlw	0
+  1017  04BC  1903               	btfsc	3,2
+  1018  04BD  2CCA               	goto	l123
+  1019                           ;aprstracker.c: 448: ax25_putc(version_text[i++
+      +                          ]>>1);
+  1020  04BE  3000               	movlw	_version_text shr (0+8)
+  1021  04BF  008A               	movwf	10
+  1022  04C0  1283               	bcf	3,5
+  1023  04C1  0AD6               	incf	?a_ax25_send
+  1024  04C2  0356               	decf	?a_ax25_send,w
+  1025  04C3  2073               	call	((_version_text+-1)& (0+2047))| (($)& (0+
+      +                          -2048))
+  1026  04C4                     	pagesel	$
+  1027  04C4  00F0               	movwf	btemp
+  1028  04C5  1003               	bcf	3,0
+  1029  04C6  0C70               	rrf	btemp,w
+  1030  04C7  1283               	bcf	3,5
+  1031  04C8  2374               	call	_ax25_putc
+  1032  04C9  2CB6               	goto	l121
+  1033  04CA                     l123
+  1034                           ;aprstracker.c: 450: i=0x80;
+  1035  04CA  3080               	movlw	-128
+  1036  04CB  1283               	bcf	3,5
+  1037  04CC  00D6               	movwf	?a_ax25_send
+  1038                           ;aprstracker.c: 451: while (j=eep_read(i++))
+  1039  04CD                     L37
+  1040  04CD  0AD6               	incf	?a_ax25_send
+  1041  04CE  0356               	decf	?a_ax25_send,w
+  1042  04CF  223D               	call	_eep_read
+  1043  04D0  00D7               	movwf	?a_ax25_send+1
+  1044  04D1  08D7               	movf	?a_ax25_send+1
+  1045                           ;aprstracker.c: 452: ax25_putc(j);
+  1046  04D2  1283               	bcf	3,5
+  1047  04D3  1903               	btfsc	3,2
+  1048  04D4  2D4F               	goto	L63
+  1049  04D5  0857               	movf	?a_ax25_send+1,w
+  1050  04D6  2374               	call	_ax25_putc
+  1051  04D7  1283               	bcf	3,5
+  1052  04D8  2CCD               	goto	L37
+  1053                           ;aprstracker.c: 454: } else {
+  1054  04D9                     l120
+  1055                           ;aprstracker.c: 456: ax25_putc('!');
+  1056  04D9  3021               	movlw	33
+  1057  04DA  1283               	bcf	3,5
+  1058  04DB  2374               	call	_ax25_putc
+  1059                           ;aprstracker.c: 459: for (i=0; i<8; i++)
+  1060  04DC  01D6               	clrf	?a_ax25_send
+  1061  04DD                     L56
+  1062  04DD  3008               	movlw	8
+  1063  04DE  0256               	subwf	?a_ax25_send,w
+  1064  04DF  1803               	btfsc	3,0
+  1065  04E0  2CE9               	goto	l129
+  1066                           ;aprstracker.c: 460: ax25_putc(latitude[i]);
+  1067  04E1  1283               	bcf	3,5
+  1068  04E2  0856               	movf	?a_ax25_send,w
+  1069  04E3  3E3B               	addlw	_latitude
+  1070  04E4  0084               	movwf	4
+  1071  04E5  0800               	movf	0,w
+  1072  04E6  2374               	call	_ax25_putc
+  1073  04E7  0AD6               	incf	?a_ax25_send
+  1074  04E8  2CDD               	goto	L56
+  1075  04E9                     l129
+  1076                           ;aprstracker.c: 463: ax25_putc(eep_read(0x1e));
+  1077  04E9  301E               	movlw	30
+  1078  04EA  1283               	bcf	3,5
+  1079  04EB  223D               	call	_eep_read
+  1080  04EC  2374               	call	_ax25_putc
+  1081                           ;aprstracker.c: 466: for (i=0; i<9; i++)
+  1082  04ED  01D6               	clrf	?a_ax25_send
+  1083  04EE                     L57
+  1084  04EE  3009               	movlw	9
+  1085  04EF  0256               	subwf	?a_ax25_send,w
+  1086  04F0  1803               	btfsc	3,0
+  1087  04F1  2CFA               	goto	l132
+  1088                           ;aprstracker.c: 467: ax25_putc(longitude[i]);
+  1089  04F2  1283               	bcf	3,5
+  1090  04F3  0856               	movf	?a_ax25_send,w
+  1091  04F4  3E43               	addlw	_longitude
+  1092  04F5  0084               	movwf	4
+  1093  04F6  0800               	movf	0,w
+  1094  04F7  2374               	call	_ax25_putc
+  1095  04F8  0AD6               	incf	?a_ax25_send
+  1096  04F9  2CEE               	goto	L57
+  1097  04FA                     l132
+  1098                           ;aprstracker.c: 469: ax25_putc(eep_read(0x1f));
+  1099  04FA  301F               	movlw	31
+  1100  04FB  1283               	bcf	3,5
+  1101  04FC  223D               	call	_eep_read
+  1102  04FD  2374               	call	_ax25_putc
+  1103                           ;aprstracker.c: 472: if (CSE_SPD_enable) {
+  1104  04FE  1C20               	btfss	_CSE_SPD_enable/(0+8),_CSE_SPD_enable& (
+      +                          0+7)
+  1105  04FF  2D20               	goto	l134
+  1106                           ;aprstracker.c: 473: for (i=0; i<3; i++)
+  1107  0500  01D6               	clrf	?a_ax25_send
+  1108  0501                     L58
+  1109  0501  3003               	movlw	3
+  1110  0502  0256               	subwf	?a_ax25_send,w
+  1111  0503  1803               	btfsc	3,0
+  1112  0504  2D0D               	goto	l136
+  1113                           ;aprstracker.c: 474: ax25_putc(course[i]);
+  1114  0505  1283               	bcf	3,5
+  1115  0506  0856               	movf	?a_ax25_send,w
+  1116  0507  3E5A               	addlw	_course
+  1117  0508  0084               	movwf	4
+  1118  0509  0800               	movf	0,w
+  1119  050A  2374               	call	_ax25_putc
+  1120  050B  0AD6               	incf	?a_ax25_send
+  1121  050C  2D01               	goto	L58
+  1122  050D                     l136
+  1123                           ;aprstracker.c: 475: ax25_putc('/');
+  1124  050D  302F               	movlw	47
+  1125  050E  1283               	bcf	3,5
+  1126  050F  2374               	call	_ax25_putc
+  1127                           ;aprstracker.c: 476: for (i=0; i<3; i++)
+  1128  0510  01D6               	clrf	?a_ax25_send
+  1129  0511  3003               	movlw	3
+  1130  0512  0256               	subwf	?a_ax25_send,w
+  1131  0513  1803               	btfsc	3,0
+  1132  0514  2D20               	goto	l134
+  1133                           ;aprstracker.c: 477: ax25_putc(speed[i]);
+  1134  0515                     l138
+  1135  0515  1283               	bcf	3,5
+  1136  0516  0856               	movf	?a_ax25_send,w
+  1137  0517  3E5D               	addlw	_speed
+  1138  0518  0084               	movwf	4
+  1139  0519  0800               	movf	0,w
+  1140  051A  2374               	call	_ax25_putc
+  1141  051B  0AD6               	incf	?a_ax25_send
+  1142  051C  3003               	movlw	3
+  1143  051D  0256               	subwf	?a_ax25_send,w
+  1144  051E  1C03               	btfss	3,0
+  1145  051F  2D15               	goto	l138
+  1146                           ;aprstracker.c: 478: }
+  1147                           ;aprstracker.c: 481: if (altitude_enable) {
+  1148  0520                     l134
+  1149  0520  1283               	bcf	3,5
+  1150  0521  1E20               	btfss	_altitude_enable/(0+8),_altitude_enable&
+      +                           (0+7)
+  1151  0522  2D3B               	goto	l141
+  1152                           ;aprstracker.c: 482: ax25_putc('/');
+  1153  0523  302F               	movlw	47
+  1154  0524  2374               	call	_ax25_putc
+  1155                           ;aprstracker.c: 483: ax25_putc('A');
+  1156  0525  3041               	movlw	65
+  1157  0526  2374               	call	_ax25_putc
+  1158                           ;aprstracker.c: 484: ax25_putc('=');
+  1159  0527  303D               	movlw	61
+  1160  0528  2374               	call	_ax25_putc
+  1161                           ;aprstracker.c: 485: ax25_putc(alt5+'0');
+  1162  0529  0827               	movf	_alt5,w
+  1163  052A  3E30               	addlw	48
+  1164  052B  2374               	call	_ax25_putc
+  1165                           ;aprstracker.c: 486: ax25_putc(alt4+'0');
+  1166  052C  0826               	movf	_alt4,w
+  1167  052D  3E30               	addlw	48
+  1168  052E  2374               	call	_ax25_putc
+  1169                           ;aprstracker.c: 487: ax25_putc(alt3+'0');
+  1170  052F  0825               	movf	_alt3,w
+  1171  0530  3E30               	addlw	48
+  1172  0531  2374               	call	_ax25_putc
+  1173                           ;aprstracker.c: 488: ax25_putc(alt2+'0');
+  1174  0532  0824               	movf	_alt2,w
+  1175  0533  3E30               	addlw	48
+  1176  0534  2374               	call	_ax25_putc
+  1177                           ;aprstracker.c: 489: ax25_putc(alt1+'0');
+  1178  0535  0823               	movf	_alt1,w
+  1179  0536  3E30               	addlw	48
+  1180  0537  2374               	call	_ax25_putc
+  1181                           ;aprstracker.c: 490: ax25_putc(alt0+'0');
+  1182  0538  0822               	movf	_alt0,w
+  1183  0539  3E30               	addlw	48
+  1184  053A  2374               	call	_ax25_putc
+  1185                           ;aprstracker.c: 491: }
+  1186                           ;aprstracker.c: 493: i=0x20;
+  1187  053B                     l141
+  1188  053B  3020               	movlw	32
+  1189  053C  1283               	bcf	3,5
+  1190  053D  00D6               	movwf	?a_ax25_send
+  1191                           ;aprstracker.c: 494: while ((j=eep_read(i++)) &
+      +                          & !btextinterval) {
+  1192  053E  2D44               	goto	L38
+  1193  053F                     l143
+  1194                           ;aprstracker.c: 499: ax25_putc(j&127);
+  1195  053F  1283               	bcf	3,5
+  1196  0540  0857               	movf	?a_ax25_send+1,w
+  1197  0541  397F               	andlw	127
+  1198  0542  2374               	call	_ax25_putc
+  1199                           ;aprstracker.c: 500: }
+  1200  0543  1283               	bcf	3,5
+  1201  0544                     L38
+  1202  0544  0AD6               	incf	?a_ax25_send
+  1203  0545  0356               	decf	?a_ax25_send,w
+  1204  0546  223D               	call	_eep_read
+  1205  0547  00D7               	movwf	?a_ax25_send+1
+  1206  0548  08D7               	movf	?a_ax25_send+1
+  1207  0549  1903               	btfsc	3,2
+  1208  054A  2D4E               	goto	l127
+  1209  054B  08E0               	movf	_btextinterval
+  1210  054C  1903               	btfsc	3,2
+  1211  054D  2D3F               	goto	l143
+  1212                           ;aprstracker.c: 501: }
+  1213  054E                     l127
+  1214                           ;aprstracker.c: 503: crc = 0;
+  1215  054E  1283               	bcf	3,5
+  1216  054F                     L63
+  1217  054F  1320               	bcf	_crc/(0+8),_crc& (0+7)
+  1218                           ;aprstracker.c: 504: crcl ^= 0xff;
+  1219  0550  30FF               	movlw	-1
+  1220  0551  06A9               	xorwf	_crcl
+  1221                           ;aprstracker.c: 505: crch ^= 0xff;
+  1222  0552  06A8               	xorwf	_crch
+  1223                           ;aprstracker.c: 506: ax25_putc(crcl);
+  1224  0553  0829               	movf	_crcl,w
+  1225  0554  2374               	call	_ax25_putc
+  1226                           ;aprstracker.c: 507: ax25_putc(crch);
+  1227  0555  0828               	movf	_crch,w
+  1228  0556  2374               	call	_ax25_putc
+  1229                           ;aprstracker.c: 509: stuffing = 0;
+  1230  0557  11A1               	bcf	_stuffing/(0+8),_stuffing& (0+7)
+  1231                           ;aprstracker.c: 510: ax25_putc(0x7e);
+  1232  0558  307E               	movlw	126
+  1233  0559  2374               	call	_ax25_putc
+  1234                           ;aprstracker.c: 511: ax25_putc(0x7e);
+  1235  055A  307E               	movlw	126
+  1236  055B  2374               	call	_ax25_putc
+  1237                           ;aprstracker.c: 513: PTT = 0;
+  1238  055C  1105               	bcf	5,2
+  1239                           ;aprstracker.c: 514: GIE = 0;
+  1240  055D  138B               	bcf	11,7
+  1241                           ;aprstracker.c: 520: if (!SW1)
+  1242  055E  1F06               	btfss	6,6
+  1243                           ;aprstracker.c: 521: LSTAT = 0;
+  1244  055F  1005               	bcf	5,0
+  1245                           ;aprstracker.c: 523: }
+  1246  0560  1283               	bcf	3,5
+  1247  0561  0008               	return
+  1248                           
+  1249                           	psect	text7
+  1250                           ;aprstracker.c: 526: void programmode(void)
+  1251                           ;aprstracker.c: 527: {
+  1252  0303                     _programmode
+  1253                           ;aprstracker.c: 528: char c;
+  1254                           ;	_c assigned to ?a_programmode+0
+  1255  0000                     _programmode$c	set	?a_programmode
+  1256                           ;aprstracker.c: 530: putch('A');
+  1257  0303  3041               	movlw	65
+  1258  0304  2297               	call	_putch
+  1259                           ;aprstracker.c: 531: putch('T');
+  1260  0305  3054               	movlw	84
+  1261  0306  2297               	call	_putch
+  1262                           ;aprstracker.c: 532: putch(0x0C);
+  1263  0307  300C               	movlw	12
+  1264  0308  2297               	call	_putch
+  1265                           ;aprstracker.c: 533: putch(0x04);
+  1266  0309  3004               	movlw	4
+  1267  030A  2297               	call	_putch
+  1268                           ;aprstracker.c: 534: putch(256-1);
+  1269  030B  30FF               	movlw	-1
+  1270  030C  2B2D               	goto	L69
+  1271  030D                     u960
+  1272                           ;aprstracker.c: 539: c=getch();
+  1273  030D  233B               	call	_getch
+  1274  030E  00D6               	movwf	?a_programmode
+  1275                           ;aprstracker.c: 540: while(WR)continue;EEADR=(c
+      +                          );EEDATA=(getch()); CARRY=0;if(GIE)CARRY=1;GIE=
+      +                          0; WREN=1;EECON2=0x55;EECON2=0xAA;WR=1;WREN=0; 
+      +                          if(CARRY)GIE=1;
+  1276  030F  1683               	bsf	3,5
+  1277  0310                     L66
+  1278  0310  189C               	btfsc	28,1
+  1279  0311  2B10               	goto	L66
+  1280  0312  1283               	bcf	3,5
+  1281  0313  0856               	movf	?a_programmode,w
+  1282  0314  1683               	bsf	3,5
+  1283  0315  009B               	movwf	27	;volatile
+  1284  0316  1283               	bcf	3,5
+  1285  0317  233B               	call	_getch
+  1286  0318  1683               	bsf	3,5
+  1287  0319  009A               	movwf	26	;volatile
+  1288  031A  1003               	bcf	3,0
+  1289  031B  1B8B               	btfsc	11,7
+  1290  031C  1403               	bsf	3,0
+  1291  031D  138B               	bcf	11,7
+  1292  031E  1683               	bsf	3,5
+  1293  031F  151C               	bsf	28,2
+  1294  0320  3055               	movlw	85
+  1295  0321  009D               	movwf	29	;volatile
+  1296  0322  30AA               	movlw	-86
+  1297  0323  009D               	movwf	29	;volatile
+  1298  0324  149C               	bsf	28,1
+  1299  0325  111C               	bcf	28,2
+  1300  0326  1803               	btfsc	3,0
+  1301  0327  178B               	bsf	11,7
+  1302                           ;aprstracker.c: 541: while (WR) continue;
+  1303  0328                     L67
+  1304  0328  189C               	btfsc	28,1
+  1305  0329  2B28               	goto	L67
+  1306                           ;aprstracker.c: 542: putch(eep_read(c));
+  1307  032A  1283               	bcf	3,5
+  1308  032B  0856               	movf	?a_programmode,w
+  1309  032C                     L70
+  1310  032C  223D               	call	_eep_read
+  1311  032D                     L69
+  1312  032D  2297               	call	_putch
+  1313                           ;aprstracker.c: 543: goto wait_programmode;
+  1314                           ;aprstracker.c: 536: wait_programmode:
+  1315                           ;aprstracker.c: 537: c=getch();
+  1316  032E  1283               	bcf	3,5
+  1317  032F  233B               	call	_getch
+  1318  0330  00D6               	movwf	?a_programmode
+  1319                           ;aprstracker.c: 538: if (c=='W') {
+  1320  0331  3A57               	xorlw	87
+  1321  0332  1903               	btfsc	3,2
+  1322  0333  2B0D               	goto	u960
+  1323                           ;aprstracker.c: 544: }
+  1324                           ;aprstracker.c: 545: if (c=='R') {
+  1325  0334  1283               	bcf	3,5
+  1326  0335  0856               	movf	?a_programmode,w
+  1327  0336  3A52               	xorlw	82
+  1328  0337  1D03               	btfss	3,2
+  1329  0338  0008               	return
+  1330                           ;aprstracker.c: 546: putch(eep_read(getch()));
+  1331  0339  233B               	call	_getch
+  1332  033A  2B2C               	goto	L70
+  1333                           
+  1334                           	psect	text8
+  1335                           ;aprstracker.c: 553: void getcomma(void)
+  1336                           ;aprstracker.c: 554: {
+  1337  0236                     _getcomma
+  1338                           ;aprstracker.c: 555: while (getch() != ',');
+  1339  0236  1283               	bcf	3,5
+  1340  0237                     L71
+  1341  0237  233B               	call	_getch
+  1342  0238  3A2C               	xorlw	44
+  1343                           ;aprstracker.c: 556: }
+  1344  0239  1283               	bcf	3,5
+  1345  023A  1903               	btfsc	3,2
+  1346  023B  0008               	return
+  1347  023C  2A37               	goto	L71
+  1348                           
+  1349                           	psect	text9
+  1350                           ;aprstracker.c: 559: void getlatlong(void)
+  1351                           ;aprstracker.c: 560: {
+  1352  02DC                     _getlatlong
+  1353                           ;aprstracker.c: 561: latitude[0] = getch();
+  1354  02DC  233B               	call	_getch
+  1355  02DD  00BB               	movwf	_latitude
+  1356                           ;aprstracker.c: 562: latitude[1] = getch();
+  1357  02DE  233B               	call	_getch
+  1358  02DF  00BC               	movwf	_latitude+1
+  1359                           ;aprstracker.c: 563: latitude[2] = getch();
+  1360  02E0  233B               	call	_getch
+  1361  02E1  00BD               	movwf	_latitude+2
+  1362                           ;aprstracker.c: 564: latitude[3] = getch();
+  1363  02E2  233B               	call	_getch
+  1364  02E3  00BE               	movwf	_latitude+3
+  1365                           ;aprstracker.c: 565: latitude[4] = getch();
+  1366  02E4  233B               	call	_getch
+  1367  02E5  00BF               	movwf	_latitude+4
+  1368                           ;aprstracker.c: 566: latitude[5] = getch();
+  1369  02E6  233B               	call	_getch
+  1370  02E7  00C0               	movwf	_latitude+5
+  1371                           ;aprstracker.c: 567: latitude[6] = getch();
+  1372  02E8  233B               	call	_getch
+  1373  02E9  00C1               	movwf	_latitude+6
+  1374                           ;aprstracker.c: 568: getcomma();
+  1375  02EA  2236               	call	_getcomma
+  1376                           ;aprstracker.c: 569: latitude[7] = getch();
+  1377  02EB  233B               	call	_getch
+  1378  02EC  00C2               	movwf	_latitude+7
+  1379                           ;aprstracker.c: 570: getch();
+  1380  02ED  233B               	call	_getch
+  1381                           ;aprstracker.c: 571: longitude[0] = getch();
+  1382  02EE  233B               	call	_getch
+  1383  02EF  00C3               	movwf	_longitude
+  1384                           ;aprstracker.c: 572: longitude[1] = getch();
+  1385  02F0  233B               	call	_getch
+  1386  02F1  00C4               	movwf	_longitude+1
+  1387                           ;aprstracker.c: 573: longitude[2] = getch();
+  1388  02F2  233B               	call	_getch
+  1389  02F3  00C5               	movwf	_longitude+2
+  1390                           ;aprstracker.c: 574: longitude[3] = getch();
+  1391  02F4  233B               	call	_getch
+  1392  02F5  00C6               	movwf	_longitude+3
+  1393                           ;aprstracker.c: 575: longitude[4] = getch();
+  1394  02F6  233B               	call	_getch
+  1395  02F7  00C7               	movwf	_longitude+4
+  1396                           ;aprstracker.c: 576: longitude[5] = getch();
+  1397  02F8  233B               	call	_getch
+  1398  02F9  00C8               	movwf	_longitude+5
+  1399                           ;aprstracker.c: 577: longitude[6] = getch();
+  1400  02FA  233B               	call	_getch
+  1401  02FB  00C9               	movwf	_longitude+6
+  1402                           ;aprstracker.c: 578: longitude[7] = getch();
+  1403  02FC  233B               	call	_getch
+  1404  02FD  00CA               	movwf	_longitude+7
+  1405                           ;aprstracker.c: 579: getcomma();
+  1406  02FE  2236               	call	_getcomma
+  1407                           ;aprstracker.c: 580: longitude[8] = getch();
+  1408  02FF  233B               	call	_getch
+  1409  0300  00CB               	movwf	_longitude+8
+  1410                           ;aprstracker.c: 581: }
+  1411  0301  1283               	bcf	3,5
+  1412  0302  0008               	return
+  1413                           
+  1414                           	psect	text10
+  1415                           ;aprstracker.c: 584: void getcourse(void)
+  1416                           ;aprstracker.c: 585: {
+  1417  026B                     _getcourse
+  1418                           ;aprstracker.c: 586: char c;
+  1419                           ;	_c assigned to ?a_getcourse+0
+  1420  0000                     _getcourse$c	set	?a_getcourse
+  1421                           ;aprstracker.c: 587: course[1]='0';
+  1422  026B  3030               	movlw	48
+  1423  026C  00DB               	movwf	_course+1
+  1424                           ;aprstracker.c: 588: course[2]='0';
+  1425  026D  00DC               	movwf	_course+2
+  1426                           ;aprstracker.c: 589: c='0';
+  1427  026E  00D6               	movwf	?a_getcourse
+  1428                           ;aprstracker.c: 590: do {
+  1429  026F                     l166
+  1430                           ;aprstracker.c: 591: course[0]=course[1];
+  1431  026F  1283               	bcf	3,5
+  1432  0270  085B               	movf	_course+1,w
+  1433  0271  00DA               	movwf	_course
+  1434                           ;aprstracker.c: 592: course[1]=course[2];
+  1435  0272  085C               	movf	_course+2,w
+  1436  0273  00DB               	movwf	_course+1
+  1437                           ;aprstracker.c: 593: course[2]=c;
+  1438  0274  0856               	movf	?a_getcourse,w
+  1439  0275  00DC               	movwf	_course+2
+  1440                           ;aprstracker.c: 594: c=getch();
+  1441  0276  233B               	call	_getch
+  1442  0277  00D6               	movwf	?a_getcourse
+  1443                           ;aprstracker.c: 595: } while (c!='.' && c!=',')
+      +                          ;
+  1444  0278  3A2E               	xorlw	46
+  1445  0279  1903               	btfsc	3,2
+  1446  027A  2A7F               	goto	l163
+  1447  027B  0856               	movf	?a_getcourse,w
+  1448  027C  3A2C               	xorlw	44
+  1449  027D  1D03               	btfss	3,2
+  1450  027E  2A6F               	goto	l166
+  1451                           ;aprstracker.c: 596: }
+  1452  027F                     l163
+  1453  027F  1283               	bcf	3,5
+  1454  0280  0008               	return
+  1455                           
+  1456                           	psect	text11
+  1457                           ;aprstracker.c: 599: void getspeed(void)
+  1458                           ;aprstracker.c: 600: {
+  1459  0281                     _getspeed
+  1460                           ;aprstracker.c: 601: char c;
+  1461                           ;	_c assigned to ?a_getspeed+0
+  1462  0000                     _getspeed$c	set	?a_getspeed
+  1463                           ;aprstracker.c: 602: speed[1] = '0';
+  1464  0281  3030               	movlw	48
+  1465  0282  00DE               	movwf	_speed+1
+  1466                           ;aprstracker.c: 603: speed[2] = '0';
+  1467  0283  00DF               	movwf	_speed+2
+  1468                           ;aprstracker.c: 604: c = '0';
+  1469  0284  00D6               	movwf	?a_getspeed
+  1470                           ;aprstracker.c: 605: do {
+  1471  0285                     l170
+  1472                           ;aprstracker.c: 606: speed[0]=speed[1];
+  1473  0285  1283               	bcf	3,5
+  1474  0286  085E               	movf	_speed+1,w
+  1475  0287  00DD               	movwf	_speed
+  1476                           ;aprstracker.c: 607: speed[1]=speed[2];
+  1477  0288  085F               	movf	_speed+2,w
+  1478  0289  00DE               	movwf	_speed+1
+  1479                           ;aprstracker.c: 608: speed[2]=c;
+  1480  028A  0856               	movf	?a_getspeed,w
+  1481  028B  00DF               	movwf	_speed+2
+  1482                           ;aprstracker.c: 609: c=getch();
+  1483  028C  233B               	call	_getch
+  1484  028D  00D6               	movwf	?a_getspeed
+  1485                           ;aprstracker.c: 610: } while (c!='.' && c!=',')
+      +                          ;
+  1486  028E  3A2E               	xorlw	46
+  1487  028F  1903               	btfsc	3,2
+  1488  0290  2A95               	goto	l167
+  1489  0291  0856               	movf	?a_getspeed,w
+  1490  0292  3A2C               	xorlw	44
+  1491  0293  1D03               	btfss	3,2
+  1492  0294  2A85               	goto	l170
+  1493                           ;aprstracker.c: 611: }
+  1494  0295                     l167
+  1495  0295  1283               	bcf	3,5
+  1496  0296  0008               	return
+  1497                           
+  1498                           	psect	text12
+  1499                           ;aprstracker.c: 614: void gps_config(void)
+  1500                           ;aprstracker.c: 615: {
+  1501  0245                     _gps_config
+  1502                           ;aprstracker.c: 616: unsigned char i, j;
+  1503                           ;	_i assigned to ?a_gps_config+0
+  1504  0000                     _gps_config$i	set	?a_gps_config
+  1505                           ;	_j assigned to ?a_gps_config+1
+  1506  0000                     _gps_config$j	set	?a_gps_config+1
+  1507                           ;aprstracker.c: 617: if (!eep_read(0x1b) & 16) 
+      +                          {
+  1508  0245  2A54               	goto	l171
+  1509                           ;aprstracker.c: 619: i=0x48;
+  1510  0246  3048               	movlw	72
+  1511  0247  00D6               	movwf	?a_gps_config
+  1512                           ;aprstracker.c: 620: while (j=eep_read(i++))
+  1513  0248  2A4C               	goto	l173
+  1514  0249                     l174
+  1515                           ;aprstracker.c: 621: putch(j);
+  1516  0249  1283               	bcf	3,5
+  1517  024A  0857               	movf	?a_gps_config+1,w
+  1518  024B  2297               	call	_putch
+  1519  024C                     l173
+  1520  024C  1283               	bcf	3,5
+  1521  024D  0AD6               	incf	?a_gps_config
+  1522  024E  0356               	decf	?a_gps_config,w
+  1523  024F  223D               	call	_eep_read
+  1524  0250  00D7               	movwf	?a_gps_config+1
+  1525  0251  08D7               	movf	?a_gps_config+1
+  1526  0252  1D03               	btfss	3,2
+  1527  0253  2A49               	goto	l174
+  1528                           ;aprstracker.c: 622: }
+  1529                           ;aprstracker.c: 623: }
+  1530  0254                     l171
+  1531  0254  1283               	bcf	3,5
+  1532  0255  0008               	return
+  1533                           
+  1534                           	psect	text13
+  1535                           ;aprstracker.c: 626: void main(void)
+  1536                           ;aprstracker.c: 627: {
+  1537  0562                     _main
+  1538                           ;aprstracker.c: 628: unsigned char c, d;
+  1539                           ;	_c assigned to ?a_main+0
+  1540  0000                     _main$c	set	?a_main
+  1541                           ;	_d assigned to ?a_main+1
+  1542  0000                     _main$d	set	?a_main+1
+  1543                           ;aprstracker.c: 629: unsigned char garbage_cnt;
+  1544                           ;	_garbage_cnt assigned to ?a_main+2
+  1545  0000                     _main$garbage_cnt	set	?a_main+2
+  1546                           ;aprstracker.c: 630: unsigned char firsttime;
+  1547                           ;	_firsttime assigned to ?a_main+3
+  1548  0000                     _main$firsttime	set	?a_main+3
+  1549                           ;aprstracker.c: 631: unsigned int t, send_statu
+      +                          s_if_zero, status_decay=8;
+  1550                           ;	_t assigned to ?a_main+4
+  1551  0000                     _main$t	set	?a_main+4
+  1552                           ;	_send_status_if_zero assigned to ?a_main+6
+  1553  0000                     _main$send_status_if_zero	set	?a_main+6
+  1554                           ;	_status_decay assigned to ?a_main+8
+  1555  0000                     _main$status_decay	set	?a_main+8
+  1556  0562  3008               	movlw	8
+  1557  0563  00D4               	movwf	?a_main+8
+  1558  0564  01D5               	clrf	?a_main+9
+  1559                           ;aprstracker.c: 633: asm(" clrwdt");
+  1560  0565  0064               	clrwdt	;#
+  1561                           ;aprstracker.c: 634: INTCON = 0;
+  1562  0566  018B               	clrf	11	;volatile
+  1563                           ;aprstracker.c: 639: T0IE = 1;
+  1564  0567  168B               	bsf	11,5
+  1565                           ;aprstracker.c: 650: CMCON=0x07;
+  1566  0568  3007               	movlw	7
+  1567  0569  009F               	movwf	31	;volatile
+  1568                           ;aprstracker.c: 651: RBPU=0;
+  1569  056A  1683               	bsf	3,5
+  1570  056B  1381               	bcf	1,7
+  1571                           ;aprstracker.c: 652: TRISB = 16 + 32 + 64 + 128
+      +                          ;
+  1572  056C  30F0               	movlw	-16
+  1573  056D  0086               	movwf	6	;volatile
+  1574                           ;aprstracker.c: 654: TRISA = 16;
+  1575  056E  3010               	movlw	16
+  1576  056F  0085               	movwf	5	;volatile
+  1577                           ;aprstracker.c: 656: LSTAT = 0;
+  1578  0570  1283               	bcf	3,5
+  1579  0571  1005               	bcf	5,0
+  1580                           ;aprstracker.c: 657: LGPS = 1;
+  1581  0572  1485               	bsf	5,1
+  1582                           ;aprstracker.c: 658: PTT = 0;
+  1583  0573  1105               	bcf	5,2
+  1584                           ;aprstracker.c: 660: send_status_if_zero = 5;
+  1585  0574  3005               	movlw	5
+  1586  0575  00D2               	movwf	?a_main+6
+  1587  0576  01D3               	clrf	?a_main+7
+  1588                           ;aprstracker.c: 661: ser4800bd = 1;
+  1589  0577  1421               	bsf	_ser4800bd/(0+8),_ser4800bd& (0+7)
+  1590                           ;aprstracker.c: 662: ser_pol = 1;
+  1591  0578  14A1               	bsf	_ser_pol/(0+8),_ser_pol& (0+7)
+  1592                           ;aprstracker.c: 663: firsttime = 1;
+  1593  0579  01CF               	clrf	?a_main+3
+  1594  057A  0ACF               	incf	?a_main+3
+  1595                           ;aprstracker.c: 666: wait_ser:
+  1596  057B                     l177
+  1597                           ;aprstracker.c: 667: asm(" clrwdt");
+  1598  057B  0064               	clrwdt	;#
+  1599                           ;aprstracker.c: 668: TXD = !ser_pol;
+  1600  057C  1283               	bcf	3,5
+  1601  057D  1585               	bsf	5,3
+  1602  057E  18A1               	btfsc	_ser_pol/(0+8),_ser_pol& (0+7)
+  1603  057F  1185               	bcf	5,3
+  1604                           ;aprstracker.c: 676: if (send_status_if_zero ==
+      +                           0) {
+  1605  0580  0853               	movf	?a_main+7,w
+  1606  0581  0452               	iorwf	?a_main+6,w
+  1607  0582  1D03               	btfss	3,2
+  1608  0583  2D9A               	goto	L86
+  1609                           ;aprstracker.c: 677: status_now = 1;
+  1610  0584  1521               	bsf	_status_now/(0+8),_status_now& (0+7)
+  1611                           ;aprstracker.c: 678: ax25_send();
+  1612  0585  23C9               	call	_ax25_send
+  1613                           ;aprstracker.c: 679: status_now = 0;
+  1614  0586  1121               	bcf	_status_now/(0+8),_status_now& (0+7)
+  1615                           ;aprstracker.c: 680: send_status_if_zero = stat
+      +                          us_decay;
+  1616  0587  0854               	movf	?a_main+8,w
+  1617  0588  00D2               	movwf	?a_main+6
+  1618  0589  0855               	movf	?a_main+9,w
+  1619  058A  00D3               	movwf	?a_main+7
+  1620                           ;aprstracker.c: 681: status_decay *= 2;
+  1621  058B  1003               	bcf	3,0
+  1622  058C  0DD4               	rlf	?a_main+8
+  1623  058D  0DD5               	rlf	?a_main+9
+  1624                           ;aprstracker.c: 682: if (status_decay > 1800)
+  1625  058E  3007               	movlw	7
+  1626  058F  0255               	subwf	?a_main+9,w
+  1627  0590  3009               	movlw	9
+  1628  0591  1903               	btfsc	3,2
+  1629  0592  0254               	subwf	?a_main+8,w
+  1630  0593  1C03               	btfss	3,0
+  1631  0594  2D99               	goto	l179
+  1632                           ;aprstracker.c: 683: status_decay = 1800;
+  1633  0595  3008               	movlw	8
+  1634  0596  00D4               	movwf	?a_main+8
+  1635  0597  3007               	movlw	7
+  1636  0598  00D5               	movwf	?a_main+9
+  1637                           ;aprstracker.c: 684: }
+  1638  0599                     l179
+  1639                           ;aprstracker.c: 686: garbage_cnt++;
+  1640  0599  1283               	bcf	3,5
+  1641  059A                     L86
+  1642  059A  0FCE               	incfsz	?a_main+2
+  1643                           ;aprstracker.c: 687: if (garbage_cnt == 0) {
+  1644  059B  2DA2               	goto	L78
+  1645                           ;aprstracker.c: 688: ser_pol = !ser_pol;
+  1646  059C  3002               	movlw	(0+1) shl (_ser_pol& (0+7))
+  1647  059D  06A1               	xorwf	(_ser_pol/(0+8))& (0+127)
+  1648                           ;aprstracker.c: 689: if (ser_pol)
+  1649  059E  1CA1               	btfss	_ser_pol/(0+8),_ser_pol& (0+7)
+  1650  059F  2DA2               	goto	L78
+  1651                           ;aprstracker.c: 690: ser4800bd = !ser4800bd;
+  1652  05A0  3001               	movlw	(0+1) shl (_ser4800bd& (0+7))
+  1653  05A1  06A1               	xorwf	(_ser4800bd/(0+8))& (0+127)
+  1654                           ;aprstracker.c: 691: }
+  1655                           ;aprstracker.c: 692: c = getch();
+  1656  05A2                     L78
+  1657  05A2  233B               	call	_getch
+  1658  05A3  00CC               	movwf	?a_main
+  1659                           ;aprstracker.c: 693: if (c != '$') {
+  1660  05A4  3A24               	xorlw	36
+  1661  05A5  1903               	btfsc	3,2
+  1662  05A6  2DAD               	goto	l182
+  1663                           ;aprstracker.c: 694: if (c == '!') {
+  1664  05A7  084C               	movf	?a_main,w
+  1665  05A8  3A21               	xorlw	33
+  1666  05A9  1D03               	btfss	3,2
+  1667  05AA  2D7B               	goto	l177
+  1668                           ;aprstracker.c: 695: programmode();
+  1669  05AB  2303               	call	_programmode
+  1670                           ;aprstracker.c: 696: }
+  1671                           ;aprstracker.c: 697: goto wait_ser;
+  1672  05AC  2D7B               	goto	l177
+  1673                           ;aprstracker.c: 698: }
+  1674                           ;aprstracker.c: 699: if (getch() != 'G')
+  1675  05AD                     l182
+  1676  05AD  1283               	bcf	3,5
+  1677  05AE  233B               	call	_getch
+  1678  05AF  3A47               	xorlw	71
+  1679  05B0  1D03               	btfss	3,2
+  1680  05B1  2D7B               	goto	l177
+  1681                           ;aprstracker.c: 700: goto wait_ser;
+  1682                           ;aprstracker.c: 701: if (getch() != 'P')
+  1683  05B2  1283               	bcf	3,5
+  1684  05B3  233B               	call	_getch
+  1685  05B4  3A50               	xorlw	80
+  1686  05B5  1D03               	btfss	3,2
+  1687  05B6  2D7B               	goto	l177
+  1688                           ;aprstracker.c: 702: goto wait_ser;
+  1689                           ;aprstracker.c: 703: if (!SEND)
+  1690  05B7  1283               	bcf	3,5
+  1691  05B8  1A86               	btfsc	6,5
+  1692  05B9  2DBB               	goto	L79
+  1693                           ;aprstracker.c: 704: beacon_now = 1;
+  1694  05BA  16A0               	bsf	_beacon_now/(0+8),_beacon_now& (0+7)
+  1695                           ;aprstracker.c: 705: garbage_cnt=0;
+  1696  05BB                     L79
+  1697  05BB  01CE               	clrf	?a_main+2
+  1698                           ;aprstracker.c: 706: if (firsttime)
+  1699  05BC  08CF               	movf	?a_main+3
+  1700  05BD  1903               	btfsc	3,2
+  1701  05BE  2DC1               	goto	L80
+  1702                           ;aprstracker.c: 707: gps_config();
+  1703  05BF  2245               	call	_gps_config
+  1704                           ;aprstracker.c: 708: firsttime = 0;
+  1705  05C0  1283               	bcf	3,5
+  1706  05C1                     L80
+  1707  05C1  01CF               	clrf	?a_main+3
+  1708                           ;aprstracker.c: 709: c = getch();
+  1709  05C2  233B               	call	_getch
+  1710  05C3  00CC               	movwf	?a_main
+  1711                           ;aprstracker.c: 710: if ((c == 'V') && ( !RMC )
+      +                          ) {
+  1712  05C4  3A56               	xorlw	86
+  1713  05C5  1903               	btfsc	3,2
+  1714  05C6  1920               	btfsc	_RMC/(0+8),_RMC& (0+7)
+  1715  05C7  2DD1               	goto	l188
+  1716                           ;aprstracker.c: 711: if (getch() == 'T') {
+  1717  05C8  233B               	call	_getch
+  1718  05C9  3A54               	xorlw	84
+  1719  05CA  1D03               	btfss	3,2
+  1720  05CB  2D7B               	goto	l177
+  1721                           ;aprstracker.c: 712: if (getch() == 'G')
+  1722  05CC  233B               	call	_getch
+  1723  05CD  3A47               	xorlw	71
+  1724  05CE  1903               	btfsc	3,2
+  1725  05CF  2F9B               	goto	l191
+  1726  05D0  2D7B               	goto	l177
+  1727                           ;aprstracker.c: 713: goto gpvtg;
+  1728                           ;aprstracker.c: 714: }
+  1729                           ;aprstracker.c: 715: }
+  1730                           ;aprstracker.c: 716: else if (c == 'G'){
+  1731  05D1                     l188
+  1732  05D1  1283               	bcf	3,5
+  1733  05D2  084C               	movf	?a_main,w
+  1734  05D3  3A47               	xorlw	71
+  1735  05D4  1D03               	btfss	3,2
+  1736  05D5  2DDF               	goto	L81
+  1737                           ;aprstracker.c: 717: if (getch() == 'G') {
+  1738  05D6  233B               	call	_getch
+  1739  05D7  3A47               	xorlw	71
+  1740  05D8  1D03               	btfss	3,2
+  1741  05D9  2D7B               	goto	l177
+  1742                           ;aprstracker.c: 718: if (getch() == 'A')
+  1743  05DA  233B               	call	_getch
+  1744  05DB  3A41               	xorlw	65
+  1745  05DC  1903               	btfsc	3,2
+  1746  05DD  2EE8               	goto	l196
+  1747  05DE  2D7B               	goto	l177
+  1748                           ;aprstracker.c: 719: goto gpgga;
+  1749                           ;aprstracker.c: 720: }
+  1750                           ;aprstracker.c: 721: }
+  1751                           ;aprstracker.c: 722: else if (c == 'R') {
+  1752  05DF                     L81
+  1753  05DF  084C               	movf	?a_main,w
+  1754  05E0  3A52               	xorlw	82
+  1755  05E1  1D03               	btfss	3,2
+  1756  05E2  2D7B               	goto	l177
+  1757                           ;aprstracker.c: 723: if (getch() == 'M') {
+  1758  05E3  233B               	call	_getch
+  1759  05E4  3A4D               	xorlw	77
+  1760  05E5  1D03               	btfss	3,2
+  1761  05E6  2D7B               	goto	l177
+  1762                           ;aprstracker.c: 724: if (getch() == 'C')
+  1763  05E7  233B               	call	_getch
+  1764  05E8  3A43               	xorlw	67
+  1765  05E9  1D03               	btfss	3,2
+  1766  05EA  2D7B               	goto	l177
+  1767                           ;aprstracker.c: 725: goto gprmc;
+  1768                           ;aprstracker.c: 726: }
+  1769                           ;aprstracker.c: 727: }
+  1770                           ;aprstracker.c: 728: goto wait_ser;
+  1771                           ;aprstracker.c: 730: gprmc:
+  1772                           ;aprstracker.c: 731: RMC = 1;
+  1773  05EB  1283               	bcf	3,5
+  1774  05EC  1520               	bsf	_RMC/(0+8),_RMC& (0+7)
+  1775                           ;aprstracker.c: 732: LGPS = !LGPS;
+  1776  05ED  3002               	movlw	2
+  1777  05EE  0685               	xorwf	5
+  1778                           ;aprstracker.c: 733: getch();
+  1779  05EF  233B               	call	_getch
+  1780                           ;aprstracker.c: 738: send_status_if_zero--;
+  1781  05F0  08D2               	movf	?a_main+6
+  1782  05F1  1903               	btfsc	3,2
+  1783  05F2  03D3               	decf	?a_main+7
+  1784  05F3  03D2               	decf	?a_main+6
+  1785                           ;aprstracker.c: 739: seconds++;
+  1786  05F4  0AB9               	incf	_seconds
+  1787  05F5  1903               	btfsc	3,2
+  1788  05F6  0ABA               	incf	_seconds+1
+  1789                           ;aprstracker.c: 740: getcomma();
+  1790  05F7  2236               	call	_getcomma
+  1791                           ;aprstracker.c: 741: if (getch() == 'V' ) {
+  1792  05F8  233B               	call	_getch
+  1793  05F9  3A56               	xorlw	86
+  1794  05FA  1903               	btfsc	3,2
+  1795  05FB  2F02               	goto	u1500
+  1796                           ;aprstracker.c: 744: LGPS = 0;
+  1797                           ;aprstracker.c: 745: goto wait_ser;
+  1798                           ;aprstracker.c: 746: }
+  1799                           ;aprstracker.c: 750: LGPS = 1;
+  1800  05FC  1283               	bcf	3,5
+  1801  05FD  1485               	bsf	5,1
+  1802                           ;aprstracker.c: 751: getch();
+  1803  05FE  233B               	call	_getch
+  1804                           ;aprstracker.c: 752: getlatlong();
+  1805  05FF  22DC               	call	_getlatlong
+  1806                           ;aprstracker.c: 753: getch();
+  1807  0600  233B               	call	_getch
+  1808                           ;aprstracker.c: 754: getspeed();
+  1809  0601  2281               	call	_getspeed
+  1810                           ;aprstracker.c: 755: getcomma();
+  1811  0602  2236               	call	_getcomma
+  1812                           ;aprstracker.c: 756: getcourse();
+  1813  0603  226B               	call	_getcourse
+  1814                           ;aprstracker.c: 758: smartbeacon:
+  1815  0604                     l203
+  1816                           ;aprstracker.c: 802: if (eep_read(0x1c) != 0) {
+  1817  0604  301C               	movlw	28
+  1818  0605  1283               	bcf	3,5
+  1819  0606  223D               	call	_eep_read
+  1820  0607  3800               	iorlw	0
+  1821  0608  1903               	btfsc	3,2
+  1822  0609  2E1C               	goto	l204
+  1823                           ;aprstracker.c: 803: if (seconds >= (eep_read(0
+      +                          x1c) * 60)) {
+  1824  060A  303C               	movlw	60
+  1825  060B  00F2               	movwf	btemp+2
+  1826  060C  01F3               	clrf	btemp+3
+  1827  060D  301C               	movlw	28
+  1828  060E  223D               	call	_eep_read
+  1829  060F  00F0               	movwf	btemp
+  1830  0610  01F1               	clrf	btemp+1
+  1831  0611  2256               	call	lwmul
+  1832  0612  0875               	movf	btemp+5,w
+  1833  0613  023A               	subwf	_seconds+1,w
+  1834  0614  1D03               	btfss	3,2
+  1835  0615  2E18               	goto	u1345
+  1836  0616  0874               	movf	btemp+4,w
+  1837  0617  0239               	subwf	_seconds,w
+  1838  0618                     u1345
+  1839  0618  1C03               	btfss	3,0
+  1840  0619  2EE0               	goto	l206
+  1841                           ;aprstracker.c: 804: beacon_now = 1;
+  1842  061A  16A0               	bsf	_beacon_now/(0+8),_beacon_now& (0+7)
+  1843                           ;aprstracker.c: 805: }
+  1844                           ;aprstracker.c: 806: } else {
+  1845  061B  2EE0               	goto	l206
+  1846  061C                     l204
+  1847                           ;aprstracker.c: 807: sb_current_speed = tdtoi(s
+      +                          peed);
+  1848  061C  305D               	movlw	_speed
+  1849  061D  1283               	bcf	3,5
+  1850  061E  22B9               	call	_tdtoi
+  1851  061F  0870               	movf	btemp,w
+  1852  0620  00B7               	movwf	_sb_current_speed
+  1853  0621  0871               	movf	btemp+1,w
+  1854  0622  00B8               	movwf	_sb_current_speed+1
+  1855                           ;aprstracker.c: 808: sb_current_heading = tdtoi
+      +                          (course);
+  1856  0623  305A               	movlw	_course
+  1857  0624  22B9               	call	_tdtoi
+  1858  0625  0870               	movf	btemp,w
+  1859  0626  00B5               	movwf	_sb_current_heading
+  1860  0627  0871               	movf	btemp+1,w
+  1861  0628  00B6               	movwf	_sb_current_heading+1
+  1862                           ;aprstracker.c: 810: if (sb_current_speed <= ee
+      +                          p_read(0x19)) {
+  1863  0629  3019               	movlw	25
+  1864  062A  223D               	call	_eep_read
+  1865  062B  00F0               	movwf	btemp
+  1866  062C  01F1               	clrf	btemp+1
+  1867  062D  0871               	movf	btemp+1,w
+  1868  062E  3A80               	xorlw	128
+  1869  062F  00F2               	movwf	btemp+2
+  1870  0630  0838               	movf	_sb_current_speed+1,w
+  1871  0631  3A80               	xorlw	128
+  1872  0632  0272               	subwf	btemp+2,w
+  1873  0633  1D03               	btfss	3,2
+  1874  0634  2E37               	goto	u1355
+  1875  0635  0837               	movf	_sb_current_speed,w
+  1876  0636  0270               	subwf	btemp,w
+  1877  0637                     u1355
+  1878  0637  1C03               	btfss	3,0
+  1879  0638  2E49               	goto	l207
+  1880                           ;aprstracker.c: 812: sb_POSIT_rate = (eep_read(
+      +                          0x18)) * 60;
+  1881  0639  303C               	movlw	60
+  1882  063A  1283               	bcf	3,5
+  1883  063B  00F2               	movwf	btemp+2
+  1884  063C  01F3               	clrf	btemp+3
+  1885  063D  3018               	movlw	24
+  1886  063E  223D               	call	_eep_read
+  1887  063F  00F0               	movwf	btemp
+  1888  0640  01F1               	clrf	btemp+1
+  1889  0641  2256               	call	awmul
+  1890  0642  0874               	movf	btemp+4,w
+  1891  0643  00B3               	movwf	_sb_POSIT_rate
+  1892  0644  0875               	movf	btemp+5,w
+  1893  0645  00B4               	movwf	_sb_POSIT_rate+1
+  1894                           ;aprstracker.c: 816: heading_change_since_beaco
+      +                          n = 0;
+  1895  0646  01B1               	clrf	_heading_change_since_beacon
+  1896  0647  01B2               	clrf	_heading_change_since_beacon+1
+  1897                           ;aprstracker.c: 817: }
+  1898                           ;aprstracker.c: 818: else {
+  1899  0648  2EBC               	goto	l208
+  1900  0649                     l207
+  1901                           ;aprstracker.c: 820: turn_threshold = 20;
+  1902  0649  3014               	movlw	20
+  1903  064A  1283               	bcf	3,5
+  1904  064B  00AF               	movwf	_turn_threshold
+  1905                           ;aprstracker.c: 823: if (sb_current_speed > eep
+      +                          _read(0x1a)) {
+  1906  064C  301A               	movlw	26
+  1907  064D  223D               	call	_eep_read
+  1908  064E  00F0               	movwf	btemp
+  1909  064F  01F1               	clrf	btemp+1
+  1910  0650  0871               	movf	btemp+1,w
+  1911  0651  3A80               	xorlw	128
+  1912  0652  00F2               	movwf	btemp+2
+  1913  0653  0838               	movf	_sb_current_speed+1,w
+  1914  0654  3A80               	xorlw	128
+  1915  0655  0272               	subwf	btemp+2,w
+  1916  0656  1D03               	btfss	3,2
+  1917  0657  2E5A               	goto	u1365
+  1918  0658  0837               	movf	_sb_current_speed,w
+  1919  0659  0270               	subwf	btemp,w
+  1920  065A                     u1365
+  1921  065A  1803               	btfsc	3,0
+  1922  065B  2E62               	goto	l209
+  1923                           ;aprstracker.c: 825: sb_POSIT_rate = eep_read(0
+      +                          x17);
+  1924  065C  3017               	movlw	23
+  1925  065D  1283               	bcf	3,5
+  1926  065E  223D               	call	_eep_read
+  1927  065F  00B3               	movwf	_sb_POSIT_rate
+  1928  0660  01B4               	clrf	_sb_POSIT_rate+1
+  1929                           ;aprstracker.c: 826: }
+  1930                           ;aprstracker.c: 827: else {
+  1931  0661  2E84               	goto	l210
+  1932  0662                     l209
+  1933                           ;aprstracker.c: 828: sb_POSIT_rate = (eep_read(
+      +                          0x17) * eep_read(0x1a)) / sb_current_speed;
+  1934  0662  301A               	movlw	26
+  1935  0663  1283               	bcf	3,5
+  1936  0664  223D               	call	_eep_read
+  1937  0665  00F2               	movwf	btemp+2
+  1938  0666  01F3               	clrf	btemp+3
+  1939  0667  3017               	movlw	23
+  1940  0668  223D               	call	_eep_read
+  1941  0669  00F0               	movwf	btemp
+  1942  066A  01F1               	clrf	btemp+1
+  1943  066B  2256               	call	awmul
+  1944  066C  0874               	movf	btemp+4,w
+  1945  066D  00F0               	movwf	btemp
+  1946  066E  0875               	movf	btemp+5,w
+  1947  066F  00F1               	movwf	btemp+1
+  1948  0670  0838               	movf	_sb_current_speed+1,w
+  1949  0671  00F3               	movwf	btemp+3
+  1950  0672  0837               	movf	_sb_current_speed,w
+  1951  0673  00F2               	movwf	btemp+2
+  1952  0674  27A8               	call	awdiv
+  1953  0675  0874               	movf	btemp+4,w
+  1954  0676  00B3               	movwf	_sb_POSIT_rate
+  1955  0677  0875               	movf	btemp+5,w
+  1956  0678  00B4               	movwf	_sb_POSIT_rate+1
+  1957                           ;aprstracker.c: 830: turn_threshold += (unsigne
+      +                          d char)( (25 * 10) / sb_current_speed);
+  1958  0679  0838               	movf	_sb_current_speed+1,w
+  1959  067A  00F3               	movwf	btemp+3
+  1960  067B  0837               	movf	_sb_current_speed,w
+  1961  067C  00F2               	movwf	btemp+2
+  1962  067D  30FA               	movlw	250
+  1963  067E  00F0               	movwf	btemp
+  1964  067F  3000               	movlw	0
+  1965  0680  01F1               	clrf	btemp+1
+  1966  0681  27A8               	call	awdiv
+  1967  0682  0874               	movf	btemp+4,w
+  1968  0683  07AF               	addwf	_turn_threshold
+  1969                           ;aprstracker.c: 831: }
+  1970  0684                     l210
+  1971                           ;aprstracker.c: 834: if (turn_threshold > 80)
+  1972  0684  3051               	movlw	81
+  1973  0685  1283               	bcf	3,5
+  1974  0686  022F               	subwf	_turn_threshold,w
+  1975  0687  1C03               	btfss	3,0
+  1976  0688  2E8B               	goto	L82
+  1977                           ;aprstracker.c: 835: turn_threshold = 80;
+  1978  0689  3050               	movlw	80
+  1979  068A  00AF               	movwf	_turn_threshold
+  1980                           ;aprstracker.c: 840: if (sb_last_heading == -1)
+  1981  068B                     L82
+  1982  068B  0A61               	incf	_sb_last_heading,w
+  1983  068C  1903               	btfsc	3,2
+  1984  068D  0A62               	incf	_sb_last_heading+1,w
+  1985  068E  1D03               	btfss	3,2
+  1986  068F  2E94               	goto	L83
+  1987                           ;aprstracker.c: 841: sb_last_heading = sb_curre
+      +                          nt_heading;
+  1988  0690  0835               	movf	_sb_current_heading,w
+  1989  0691  00E1               	movwf	_sb_last_heading
+  1990  0692  0836               	movf	_sb_current_heading+1,w
+  1991  0693  00E2               	movwf	_sb_last_heading+1
+  1992                           ;aprstracker.c: 845: heading_change_since_beaco
+      +                          n = sb_current_heading - sb_last_heading;
+  1993  0694                     L83
+  1994  0694  0861               	movf	_sb_last_heading,w
+  1995  0695  0235               	subwf	_sb_current_heading,w
+  1996  0696  00B1               	movwf	_heading_change_since_beacon
+  1997  0697  0862               	movf	_sb_last_heading+1,w
+  1998  0698  1C03               	btfss	3,0
+  1999  0699  0A62               	incf	_sb_last_heading+1,w
+  2000  069A  0236               	subwf	_sb_current_heading+1,w
+  2001  069B  00B2               	movwf	_heading_change_since_beacon+1
+  2002                           ;aprstracker.c: 846: if (heading_change_since_b
+      +                          eacon < 0)
+  2003  069C  1FB2               	btfss	_heading_change_since_beacon+1,7
+  2004  069D  2EA6               	goto	L84
+  2005                           ;aprstracker.c: 847: heading_change_since_beaco
+      +                          n = sb_last_heading - sb_current_heading;
+  2006  069E  0835               	movf	_sb_current_heading,w
+  2007  069F  0261               	subwf	_sb_last_heading,w
+  2008  06A0  00B1               	movwf	_heading_change_since_beacon
+  2009  06A1  0836               	movf	_sb_current_heading+1,w
+  2010  06A2  1C03               	btfss	3,0
+  2011  06A3  0A36               	incf	_sb_current_heading+1,w
+  2012  06A4  0262               	subwf	_sb_last_heading+1,w
+  2013  06A5  00B2               	movwf	_heading_change_since_beacon+1
+  2014                           ;aprstracker.c: 848: if (heading_change_since_b
+      +                          eacon > 180)
+  2015  06A6                     L84
+  2016  06A6  0832               	movf	_heading_change_since_beacon+1,w
+  2017  06A7  3A80               	xorlw	128
+  2018  06A8  00F0               	movwf	btemp
+  2019  06A9  3080               	movlw	128
+  2020  06AA  0270               	subwf	btemp,w
+  2021  06AB  30B5               	movlw	181
+  2022                           ;set	bank bits for (((_heading_change_since_bea
+      +                          con)))
+  2023  06AC  1903               	btfsc	3,2
+  2024  06AD  0231               	subwf	_heading_change_since_beacon,w
+  2025  06AE  1C03               	btfss	3,0
+  2026  06AF  2EBD               	goto	L85
+  2027                           ;aprstracker.c: 849: heading_change_since_beaco
+      +                          n = 360 - heading_change_since_beacon;
+  2028  06B0  3068               	movlw	104
+  2029  06B1  00F0               	movwf	btemp
+  2030  06B2  3001               	movlw	1
+  2031  06B3  00F1               	movwf	btemp+1
+  2032  06B4  0831               	movf	_heading_change_since_beacon,w
+  2033  06B5  0270               	subwf	btemp,w
+  2034  06B6  00B1               	movwf	_heading_change_since_beacon
+  2035  06B7  0832               	movf	_heading_change_since_beacon+1,w
+  2036  06B8  1C03               	btfss	3,0
+  2037  06B9  0A32               	incf	_heading_change_since_beacon+1,w
+  2038  06BA  0271               	subwf	btemp+1,w
+  2039  06BB  00B2               	movwf	_heading_change_since_beacon+1
+  2040                           ;aprstracker.c: 850: }
+  2041  06BC                     l208
+  2042                           ;aprstracker.c: 852: if ( ( (heading_change_sin
+      +                          ce_beacon > turn_threshold)
+  2043                           ;aprstracker.c: 853: && (seconds > 10) )
+  2044                           ;aprstracker.c: 854: || (seconds > sb_POSIT_rat
+      +                          e) ) {
+  2045  06BC  1283               	bcf	3,5
+  2046  06BD                     L85
+  2047  06BD  082F               	movf	_turn_threshold,w
+  2048  06BE  00F0               	movwf	btemp
+  2049  06BF  01F1               	clrf	btemp+1
+  2050  06C0  0871               	movf	btemp+1,w
+  2051  06C1  3A80               	xorlw	128
+  2052  06C2  00F2               	movwf	btemp+2
+  2053  06C3  0832               	movf	_heading_change_since_beacon+1,w
+  2054  06C4  3A80               	xorlw	128
+  2055  06C5  0272               	subwf	btemp+2,w
+  2056  06C6  1D03               	btfss	3,2
+  2057  06C7  2ECA               	goto	u1415
+  2058  06C8  0831               	movf	_heading_change_since_beacon,w
+  2059  06C9  0270               	subwf	btemp,w
+  2060  06CA                     u1415
+  2061  06CA  1803               	btfsc	3,0
+  2062  06CB  2ED3               	goto	L88
+  2063  06CC  3000               	movlw	0
+  2064  06CD  023A               	subwf	_seconds+1,w
+  2065  06CE  300B               	movlw	11
+  2066  06CF  1903               	btfsc	3,2
+  2067  06D0  0239               	subwf	_seconds,w
+  2068  06D1  1803               	btfsc	3,0
+  2069  06D2  2EDB               	goto	L89
+  2070  06D3                     L88
+  2071  06D3  083A               	movf	_seconds+1,w
+  2072  06D4  0234               	subwf	_sb_POSIT_rate+1,w
+  2073  06D5  1D03               	btfss	3,2
+  2074  06D6  2ED9               	goto	u1445
+  2075  06D7  0839               	movf	_seconds,w
+  2076  06D8  0233               	subwf	_sb_POSIT_rate,w
+  2077  06D9                     u1445
+  2078  06D9  1803               	btfsc	3,0
+  2079  06DA  2EE1               	goto	L90
+  2080                           ;aprstracker.c: 860: beacon_now = 1;
+  2081  06DB                     L89
+  2082  06DB  16A0               	bsf	_beacon_now/(0+8),_beacon_now& (0+7)
+  2083                           ;aprstracker.c: 861: sb_last_heading = sb_curre
+      +                          nt_heading;
+  2084  06DC  0835               	movf	_sb_current_heading,w
+  2085  06DD  00E1               	movwf	_sb_last_heading
+  2086  06DE  0836               	movf	_sb_current_heading+1,w
+  2087  06DF  00E2               	movwf	_sb_last_heading+1
+  2088                           ;aprstracker.c: 862: }
+  2089                           ;aprstracker.c: 864: }
+  2090  06E0                     l206
+  2091                           ;aprstracker.c: 866: if ( beacon_now ) {
+  2092  06E0  1283               	bcf	3,5
+  2093  06E1                     L90
+  2094  06E1  1EA0               	btfss	_beacon_now/(0+8),_beacon_now& (0+7)
+  2095  06E2  2D7B               	goto	l177
+  2096                           ;aprstracker.c: 868: ax25_send();
+  2097  06E3  23C9               	call	_ax25_send
+  2098                           ;aprstracker.c: 869: beacon_now = 0;
+  2099  06E4  12A0               	bcf	_beacon_now/(0+8),_beacon_now& (0+7)
+  2100                           ;aprstracker.c: 870: seconds = 0;
+  2101  06E5  01B9               	clrf	_seconds
+  2102  06E6  01BA               	clrf	_seconds+1
+  2103                           ;aprstracker.c: 871: }
+  2104                           ;aprstracker.c: 872: goto wait_ser;
+  2105  06E7  2D7B               	goto	l177
+  2106                           ;aprstracker.c: 875: gpgga:
+  2107  06E8                     l196
+  2108                           ;aprstracker.c: 876: GGA = 1;
+  2109  06E8  1283               	bcf	3,5
+  2110  06E9  14A0               	bsf	_GGA/(0+8),_GGA& (0+7)
+  2111                           ;aprstracker.c: 877: LGPS = !LGPS;
+  2112  06EA  3002               	movlw	2
+  2113  06EB  0685               	xorwf	5
+  2114                           ;aprstracker.c: 878: getch();
+  2115  06EC  233B               	call	_getch
+  2116                           ;aprstracker.c: 883: if ( !RMC ) {
+  2117  06ED  1920               	btfsc	_RMC/(0+8),_RMC& (0+7)
+  2118  06EE  2EF6               	goto	l217
+  2119                           ;aprstracker.c: 885: send_status_if_zero--;
+  2120  06EF  08D2               	movf	?a_main+6
+  2121  06F0  1903               	btfsc	3,2
+  2122  06F1  03D3               	decf	?a_main+7
+  2123  06F2  03D2               	decf	?a_main+6
+  2124                           ;aprstracker.c: 886: seconds++;
+  2125  06F3  0AB9               	incf	_seconds
+  2126  06F4  1903               	btfsc	3,2
+  2127  06F5  0ABA               	incf	_seconds+1
+  2128                           ;aprstracker.c: 887: }
+  2129                           ;aprstracker.c: 888: getcomma();
+  2130  06F6                     l217
+  2131  06F6  1283               	bcf	3,5
+  2132  06F7  2236               	call	_getcomma
+  2133                           ;aprstracker.c: 889: getlatlong();
+  2134  06F8  22DC               	call	_getlatlong
+  2135                           ;aprstracker.c: 890: getch();
+  2136  06F9  233B               	call	_getch
+  2137                           ;aprstracker.c: 891: if (getch() == '0' || lati
+      +                          tude[0]==',') {
+  2138  06FA  233B               	call	_getch
+  2139  06FB  3A30               	xorlw	48
+  2140  06FC  1903               	btfsc	3,2
+  2141  06FD  2F02               	goto	u1500
+  2142  06FE  083B               	movf	_latitude,w
+  2143  06FF  3A2C               	xorlw	44
+  2144  0700  1D03               	btfss	3,2
+  2145  0701  2F04               	goto	l218
+  2146  0702                     u1500
+  2147                           ;aprstracker.c: 895: LGPS = 0;
+  2148  0702  1085               	bcf	5,1
+  2149                           ;aprstracker.c: 896: goto wait_ser;
+  2150  0703  2D7B               	goto	l177
+  2151                           ;aprstracker.c: 897: }
+  2152                           ;aprstracker.c: 902: LGPS = 1;
+  2153  0704                     l218
+  2154  0704  1283               	bcf	3,5
+  2155  0705  1485               	bsf	5,1
+  2156                           ;aprstracker.c: 903: getch();
+  2157  0706  233B               	call	_getch
+  2158                           ;aprstracker.c: 904: getcomma();
+  2159  0707  2236               	call	_getcomma
+  2160                           ;aprstracker.c: 905: getcomma();
+  2161  0708  2236               	call	_getcomma
+  2162                           ;aprstracker.c: 906: alt0=0;
+  2163  0709  01A2               	clrf	_alt0
+  2164                           ;aprstracker.c: 907: alt1=0;
+  2165  070A  01A3               	clrf	_alt1
+  2166                           ;aprstracker.c: 908: alt2=0;
+  2167  070B  01A4               	clrf	_alt2
+  2168                           ;aprstracker.c: 909: alt3=0;
+  2169  070C  01A5               	clrf	_alt3
+  2170                           ;aprstracker.c: 910: alt4=0;
+  2171  070D  01A6               	clrf	_alt4
+  2172                           ;aprstracker.c: 911: alt5=0;
+  2173  070E  01A7               	clrf	_alt5
+  2174                           ;aprstracker.c: 912: d=getch();
+  2175  070F  233B               	call	_getch
+  2176  0710  00CD               	movwf	?a_main+1
+  2177                           ;aprstracker.c: 913: c=0;
+  2178  0711  01CC               	clrf	?a_main
+  2179                           ;aprstracker.c: 914: if (d!='-') do {
+  2180  0712  3A2D               	xorlw	45
+  2181  0713                     L92
+  2182  0713  1903               	btfsc	3,2
+  2183  0714  2E04               	goto	l203
+  2184                           ;aprstracker.c: 915: alt5=alt4;
+  2185  0715  1283               	bcf	3,5
+  2186  0716  0826               	movf	_alt4,w
+  2187  0717  00A7               	movwf	_alt5
+  2188                           ;aprstracker.c: 916: alt4=alt3;
+  2189  0718  0825               	movf	_alt3,w
+  2190  0719  00A6               	movwf	_alt4
+  2191                           ;aprstracker.c: 917: alt3=alt2;
+  2192  071A  0824               	movf	_alt2,w
+  2193  071B  00A5               	movwf	_alt3
+  2194                           ;aprstracker.c: 918: alt2=alt1;
+  2195  071C  0823               	movf	_alt1,w
+  2196  071D  00A4               	movwf	_alt2
+  2197                           ;aprstracker.c: 919: alt1=alt0;
+  2198  071E  0822               	movf	_alt0,w
+  2199  071F  00A3               	movwf	_alt1
+  2200                           ;aprstracker.c: 920: t=(unsigned int)((d-'0')*3
+      +                          3);
+  2201  0720  3021               	movlw	33
+  2202  0721  00F2               	movwf	btemp+2
+  2203  0722  01F3               	clrf	btemp+3
+  2204  0723  084D               	movf	?a_main+1,w
+  2205  0724  00F0               	movwf	btemp
+  2206  0725  01F1               	clrf	btemp+1
+  2207  0726  30D0               	movlw	208
+  2208  0727  07F0               	addwf	btemp
+  2209  0728  1803               	btfsc	3,0
+  2210  0729  0AF1               	incf	btemp+1
+  2211  072A  30FF               	movlw	255
+  2212  072B  07F1               	addwf	btemp+1
+  2213  072C  2256               	call	lwmul
+  2214  072D  0874               	movf	btemp+4,w
+  2215  072E  00D0               	movwf	?a_main+4
+  2216  072F  0875               	movf	btemp+5,w
+  2217  0730  00D1               	movwf	?a_main+5
+  2218                           ;aprstracker.c: 921: while (t > 99) {
+  2219                           ;aprstracker.c: 936: }
+  2220                           ;aprstracker.c: 937: }
+  2221                           ;aprstracker.c: 938: }
+  2222                           ;aprstracker.c: 939: }
+  2223  0731                     l223
+  2224  0731  3000               	movlw	0
+  2225  0732  1283               	bcf	3,5
+  2226  0733  0251               	subwf	?a_main+5,w
+  2227  0734  3064               	movlw	100
+  2228  0735  1903               	btfsc	3,2
+  2229  0736  0250               	subwf	?a_main+4,w
+  2230  0737  1C03               	btfss	3,0
+  2231  0738  2F5B               	goto	l225
+  2232                           ;aprstracker.c: 922: t-=100;
+  2233  0739  309C               	movlw	-100
+  2234  073A  07D0               	addwf	?a_main+4
+  2235  073B  1C03               	btfss	3,0
+  2236  073C  03D1               	decf	?a_main+5
+  2237                           ;aprstracker.c: 923: alt1++;
+  2238  073D  0AA3               	incf	_alt1
+  2239                           ;aprstracker.c: 924: if (alt1 > 9) {
+  2240  073E  300A               	movlw	10
+  2241  073F  0223               	subwf	_alt1,w
+  2242  0740  1C03               	btfss	3,0
+  2243  0741  2F31               	goto	l223
+  2244                           ;aprstracker.c: 925: alt1-=10;
+  2245  0742  30F6               	movlw	-10
+  2246  0743  07A3               	addwf	_alt1
+  2247                           ;aprstracker.c: 926: alt2++;
+  2248  0744  0AA4               	incf	_alt2
+  2249                           ;aprstracker.c: 927: if (alt2 > 9) {
+  2250  0745  300A               	movlw	10
+  2251  0746  0224               	subwf	_alt2,w
+  2252  0747  1C03               	btfss	3,0
+  2253  0748  2F31               	goto	l223
+  2254                           ;aprstracker.c: 928: alt2-=10;
+  2255  0749  30F6               	movlw	-10
+  2256  074A  07A4               	addwf	_alt2
+  2257                           ;aprstracker.c: 929: alt3++;
+  2258  074B  0AA5               	incf	_alt3
+  2259                           ;aprstracker.c: 930: if (alt3 > 9) {
+  2260  074C  300A               	movlw	10
+  2261  074D  0225               	subwf	_alt3,w
+  2262  074E  1C03               	btfss	3,0
+  2263  074F  2F31               	goto	l223
+  2264                           ;aprstracker.c: 931: alt3-=10;
+  2265  0750  30F6               	movlw	-10
+  2266  0751  07A5               	addwf	_alt3
+  2267                           ;aprstracker.c: 932: alt4++;
+  2268  0752  0AA6               	incf	_alt4
+  2269                           ;aprstracker.c: 933: if (alt4 > 9)
+  2270  0753  300A               	movlw	10
+  2271  0754  0226               	subwf	_alt4,w
+  2272  0755  1C03               	btfss	3,0
+  2273  0756  2F59               	goto	L91
+  2274                           ;aprstracker.c: 934: alt4-=10;
+  2275  0757  30F6               	movlw	-10
+  2276  0758  07A6               	addwf	_alt4
+  2277                           ;aprstracker.c: 935: alt5++;
+  2278  0759                     L91
+  2279  0759  0AA7               	incf	_alt5
+  2280  075A  2F31               	goto	l223
+  2281  075B                     l225
+  2282                           ;aprstracker.c: 940: alt0=(unsigned char)(t/10)
+      +                          +c;
+  2283  075B  300A               	movlw	10
+  2284  075C  00F2               	movwf	btemp+2
+  2285  075D  01F3               	clrf	btemp+3
+  2286  075E  0851               	movf	?a_main+5,w
+  2287  075F  00F1               	movwf	btemp+1
+  2288  0760  0850               	movf	?a_main+4,w
+  2289  0761  00F0               	movwf	btemp
+  2290  0762  27BD               	call	lwdiv
+  2291  0763  0874               	movf	btemp+4,w
+  2292  0764  074C               	addwf	?a_main,w
+  2293  0765  00A2               	movwf	_alt0
+  2294                           ;aprstracker.c: 941: if (alt0 > 9) {
+  2295  0766  300A               	movlw	10
+  2296  0767  0222               	subwf	_alt0,w
+  2297  0768  1C03               	btfss	3,0
+  2298  0769  2F89               	goto	l230
+  2299                           ;aprstracker.c: 942: alt0-=10;
+  2300  076A  30F6               	movlw	-10
+  2301  076B  07A2               	addwf	_alt0
+  2302                           ;aprstracker.c: 943: alt1++;
+  2303  076C  0AA3               	incf	_alt1
+  2304                           ;aprstracker.c: 944: if (alt1 > 9) {
+  2305  076D  300A               	movlw	10
+  2306  076E  0223               	subwf	_alt1,w
+  2307  076F  1C03               	btfss	3,0
+  2308  0770  2F89               	goto	l230
+  2309                           ;aprstracker.c: 945: alt1-=10;
+  2310  0771  30F6               	movlw	-10
+  2311  0772  07A3               	addwf	_alt1
+  2312                           ;aprstracker.c: 946: alt2++;
+  2313  0773  0AA4               	incf	_alt2
+  2314                           ;aprstracker.c: 947: if (alt2 > 9) {
+  2315  0774  300A               	movlw	10
+  2316  0775  0224               	subwf	_alt2,w
+  2317  0776  1C03               	btfss	3,0
+  2318  0777  2F89               	goto	l230
+  2319                           ;aprstracker.c: 948: alt2-=10;
+  2320  0778  30F6               	movlw	-10
+  2321  0779  07A4               	addwf	_alt2
+  2322                           ;aprstracker.c: 949: alt3++;
+  2323  077A  0AA5               	incf	_alt3
+  2324                           ;aprstracker.c: 950: if (alt3 > 9) {
+  2325  077B  300A               	movlw	10
+  2326  077C  0225               	subwf	_alt3,w
+  2327  077D  1C03               	btfss	3,0
+  2328  077E  2F89               	goto	l230
+  2329                           ;aprstracker.c: 951: alt3-=10;
+  2330  077F  30F6               	movlw	-10
+  2331  0780  07A5               	addwf	_alt3
+  2332                           ;aprstracker.c: 952: alt4++;
+  2333  0781  0AA6               	incf	_alt4
+  2334                           ;aprstracker.c: 953: if (alt4 > 9) {
+  2335  0782  300A               	movlw	10
+  2336  0783  0226               	subwf	_alt4,w
+  2337  0784  1C03               	btfss	3,0
+  2338  0785  2F89               	goto	l230
+  2339                           ;aprstracker.c: 954: alt4-=10;
+  2340  0786  30F6               	movlw	-10
+  2341  0787  07A6               	addwf	_alt4
+  2342                           ;aprstracker.c: 955: alt5++;
+  2343  0788  0AA7               	incf	_alt5
+  2344                           ;aprstracker.c: 956: }
+  2345                           ;aprstracker.c: 957: }
+  2346                           ;aprstracker.c: 958: }
+  2347                           ;aprstracker.c: 959: }
+  2348                           ;aprstracker.c: 960: }
+  2349                           ;aprstracker.c: 961: c=(unsigned char)t;
+  2350  0789                     l230
+  2351  0789  1283               	bcf	3,5
+  2352  078A  0850               	movf	?a_main+4,w
+  2353  078B  00CC               	movwf	?a_main
+  2354                           ;aprstracker.c: 962: while (c > 9)
+  2355  078C                     l235
+  2356  078C  300A               	movlw	10
+  2357  078D  024C               	subwf	?a_main,w
+  2358  078E  1C03               	btfss	3,0
+  2359  078F  2F93               	goto	L77
+  2360                           ;aprstracker.c: 963: c-=10;
+  2361  0790  30F6               	movlw	-10
+  2362  0791  07CC               	addwf	?a_main
+  2363  0792  2F8C               	goto	l235
+  2364                           ;aprstracker.c: 964: d=getch();
+  2365  0793                     L77
+  2366  0793  233B               	call	_getch
+  2367  0794  00CD               	movwf	?a_main+1
+  2368                           ;aprstracker.c: 965: } while (d!=',' && d!='.')
+      +                          ;
+  2369  0795  3A2C               	xorlw	44
+  2370  0796  1903               	btfsc	3,2
+  2371  0797  2E04               	goto	l203
+  2372  0798  084D               	movf	?a_main+1,w
+  2373  0799  3A2E               	xorlw	46
+  2374  079A  2F13               	goto	L92
+  2375                           ;aprstracker.c: 966: goto smartbeacon;
+  2376                           ;aprstracker.c: 969: gpvtg:
+  2377  079B                     l191
+  2378                           ;aprstracker.c: 970: VTG = 1;
+  2379  079B  1283               	bcf	3,5
+  2380  079C  15A0               	bsf	_VTG/(0+8),_VTG& (0+7)
+  2381                           ;aprstracker.c: 971: getch();
+  2382  079D  233B               	call	_getch
+  2383                           ;aprstracker.c: 972: getcourse();
+  2384  079E  226B               	call	_getcourse
+  2385                           ;aprstracker.c: 973: while (getch() != 'M');
+  2386  079F  1283               	bcf	3,5
+  2387  07A0                     L93
+  2388  07A0  233B               	call	_getch
+  2389  07A1  3A4D               	xorlw	77
+  2390                           ;aprstracker.c: 974: getch();
+  2391  07A2  1283               	bcf	3,5
+  2392  07A3  1D03               	btfss	3,2
+  2393  07A4  2FA0               	goto	L93
+  2394  07A5  233B               	call	_getch
+  2395                           ;aprstracker.c: 975: getspeed();
+  2396  07A6  2281               	call	_getspeed
+  2397                           ;aprstracker.c: 976: goto smartbeacon;
+  2398  07A7  2E04               	goto	l203
+  2399                           
+  2400                           	psect	text14
+  2401  0000                     
+  2402  0000                     
+  2403  0000                     
+  2404  0000                     
+  2405  0000                     
+  2406  0000                     
+  2407  0000                     
+  2408  0000                     
+  2409  0000                     
+  2410  0000                     
+  2411  0000                     
+  2412  0000                     
+  2413  0000                     
+  2414  0000                     
+  2415  0000                     
+  2416  0000                     
+  2417  0000                     
+  2418  0000                     
+  2419  0000                     
+  2420  0000                     
+  2421  0000                     
+  2422  0000                     
+  2423  0000                     
+  2424                           
+  2425                           	psect	rbit_0
+  2426  0100                     _CSE_SPD_enable
+  2427  0100                     	ds	1
+  2428  0000                     
+  2429  0000                     
+  2430  0000                     
+  2431  0000                     
+  2432  0000                     
+  2433  0101                     _GGA
+  2434  0101                     	ds	1
+  2435  0000                     
+  2436  0000                     
+  2437  0000                     
+  2438  0000                     
+  2439  0000                     
+  2440  0000                     
+  2441  0000                     
+  2442  0000                     
+  2443  0000                     
+  2444  0000                     
+  2445  0000                     
+  2446  0000                     
+  2447  0000                     
+  2448  0000                     
+  2449  0000                     
+  2450  0000                     
+  2451  0000                     
+  2452  0000                     
+  2453  0000                     
+  2454  0000                     
+  2455  0000                     
+  2456  0000                     
+  2457  0000                     
+  2458  0000                     
+  2459  0000                     
+  2460  0000                     
+  2461  0000                     
+  2462  0000                     
+  2463  0000                     
+  2464  0000                     
+  2465  0000                     
+  2466  0000                     
+  2467  0000                     
+  2468  0000                     
+  2469  0000                     
+  2470  0000                     
+  2471  0000                     
+  2472  0000                     
+  2473  0000                     
+  2474  0000                     
+  2475  0000                     
+  2476  0000                     
+  2477  0000                     
+  2478  0102                     _RMC
+  2479  0102                     	ds	1
+  2480  0000                     
+  2481  0000                     
+  2482  0000                     
+  2483  0000                     
+  2484  0000                     
+  2485  0000                     
+  2486  0000                     
+  2487  0000                     
+  2488  0000                     
+  2489  0000                     
+  2490  0000                     
+  2491  0000                     
+  2492  0000                     
+  2493  0000                     
+  2494  0000                     
+  2495  0000                     
+  2496  0000                     
+  2497  0000                     
+  2498  0000                     
+  2499  0000                     
+  2500  0000                     
+  2501  0000                     
+  2502  0000                     
+  2503  0000                     
+  2504  0000                     
+  2505  0000                     
+  2506  0000                     
+  2507  0000                     
+  2508  0000                     
+  2509  0000                     
+  2510  0000                     
+  2511  0000                     
+  2512  0000                     
+  2513  0000                     
+  2514  0000                     
+  2515  0000                     
+  2516  0000                     
+  2517  0000                     
+  2518  0000                     
+  2519  0000                     
+  2520  0000                     
+  2521  0000                     
+  2522  0000                     
+  2523  0000                     
+  2524  0000                     
+  2525  0000                     
+  2526  0000                     
+  2527  0000                     
+  2528  0000                     
+  2529  0000                     
+  2530  0000                     
+  2531  0000                     
+  2532  0000                     
+  2533  0000                     
+  2534  0000                     
+  2535  0000                     
+  2536  0000                     
+  2537  0000                     
+  2538  0000                     
+  2539  0000                     
+  2540  0000                     
+  2541  0000                     
+  2542  0000                     
+  2543  0103                     _VTG
+  2544  0103                     	ds	1
+  2545  0000                     
+  2546  0000                     
+  2547  0000                     
+  2548  0000                     
+  2549  0104                     _altitude_enable
+  2550  0104                     	ds	1
+  2551  0105                     _beacon_now
+  2552  0105                     	ds	1
+  2553  0106                     _crc
+  2554  0106                     	ds	1
+  2555  0107                     _sendbit
+  2556  0107                     	ds	1
+  2557  0108                     _ser4800bd
+  2558  0108                     	ds	1
+  2559  0109                     _ser_pol
+  2560  0109                     	ds	1
+  2561  010A                     _status_now
+  2562  010A                     	ds	1
+  2563  010B                     _stuffing
+  2564  010B                     	ds	1
+  2565  010C                     _tone1200
+  2566  010C                     	ds	1
+  2567  0000                     
+  2568  0000                     
+  2569  0000                     
+  2570  0000                     
+  2571  0000                     
+  2572  0000                     
+  2573  0000                     
+  2574  0000                     
+  2575  0000                     
+  2576  0000                     
+  2577  0000                     
+  2578  0000                     
+  2579  0000                     
+  2580  0000                     
+  2581  0000                     
+  2582  0000                     
+  2583  0000                     
+  2584  0000                     
+  2585  0000                     
+  2586  0000                     
+  2587  0000                     
+  2588  0000                     
+  2589  0000                     
+  2590  0000                     
+  2591  0000                     
+  2592  0000                     
+  2593  0000                     
+  2594  0000                     
+  2595  0000                     
+  2596  0000                     
+  2597  0000                     
+  2598  0000                     
+  2599  0000                     
+  2600  0000                     
+  2601                           
+  2602                           	psect	rbss_0
+  2603  0022                     _alt0
+  2604  0022                     	ds	1
+  2605  0023                     _alt1
+  2606  0023                     	ds	1
+  2607  0024                     _alt2
+  2608  0024                     	ds	1
+  2609  0025                     _alt3
+  2610  0025                     	ds	1
+  2611  0026                     _alt4
+  2612  0026                     	ds	1
+  2613  0027                     _alt5
+  2614  0027                     	ds	1
+  2615  0028                     _crch
+  2616  0028                     	ds	1
+  2617  0029                     _crcl
+  2618  0029                     	ds	1
+  2619  002A                     _modem_cnt
+  2620  002A                     	ds	1
+  2621  002B                     _modem_dly
+  2622  002B                     	ds	1
+  2623  002C                     _modem_wave
+  2624  002C                     	ds	1
+  2625  002D                     _proppath
+  2626  002D                     	ds	1
+  2627  002E                     _stuff_cnt
+  2628  002E                     	ds	1
+  2629  002F                     _turn_threshold
+  2630  002F                     	ds	1
+  2631  0030                     _w
+  2632  0030                     	ds	1
+  2633  0031                     _heading_change_since_beacon
+  2634  0031                     	ds	2
+  2635  0033                     _sb_POSIT_rate
+  2636  0033                     	ds	2
+  2637  0035                     _sb_current_heading
+  2638  0035                     	ds	2
+  2639  0037                     _sb_current_speed
+  2640  0037                     	ds	2
+  2641  0039                     _seconds
+  2642  0039                     	ds	2
+  2643  003B                     _latitude
+  2644  003B                     	ds	8
+  2645  0043                     _longitude
+  2646  0043                     	ds	9
+  2647                           
+  2648                           	psect	temp
+  2649  0070                     btemp
+  2650  0070                     	ds	6
+
+
+HI-TECH Software PICC Macro Assembler V8.02PL1
+Symbol Table                                          Sat Feb  7 18:22:33 2009
+
+                ?a_getcourse 0056                       ?a_main 004C  
+                          l2 02D2                            l3 02BE  
+                          l6 0035                            _w 0030  
+                          pc 0002                     _eep_read 023D  
+                    ?a_getch 0057                           l11 0396  
+                         l21 03A0                           l30 03B0  
+                         l17 039B                           l50 033C  
+                         l34 03B5                           l46 03BE  
+                         l63 036D                           l72 02B3  
+                         l56 0352                           l57 0358  
+                         l49 0342                           l82 03ED  
+                         l91 03F4                           l92 03F6  
+                         l93 03FF                           l69 02A2  
+                         l94 0401                           l78 03D0  
+                         l96 0417                           l99 0420  
+                         u50 0388                           u60 038E  
+                         u52 0389                           u62 038F  
+                    ?a_tdtoi 0056                           fsr 0004  
+                    ?a_putch 0058                       _PCLATH 000A  
+         _sb_current_heading 0035                     _getcomma 0236  
+                   _getspeed 0281                          l100 042A  
+                        l101 0428                          l110 0455  
+                        l111 046B                          l120 04D9  
+                        l121 04B6                          l113 0474  
+                        l210 0684                          l114 0468  
+                        l106 043B                          l203 0604  
+                        l123 04CA                          l204 061C  
+                        l132 04FA                          l141 053B  
+                        l109 0448                          l230 0789  
+                        l206 06E0                          l134 0520  
+                        l223 0731                          l207 0649  
+                        l143 053F                          l127 054E  
+                        l119 04AC                          l208 06BC  
+                        l136 050D                          l225 075B  
+                        l217 06F6                          l209 0662  
+                        l129 04E9                          l218 0704  
+                        l170 0285                          l138 0515  
+                        l235 078C                          l171 0254  
+                        l163 027F                          l173 024C  
+                        l182 05AD                          l174 0249  
+                        l166 026F                          l191 079B  
+                        l167 0295                          l177 057B  
+                        l179 0599                          l196 06E8  
+                        l188 05D1                          _GGA 0101  
+                        u320 0366                          u240 0347  
+                        _PCL 0002                          _RMC 0102  
+                        u960 030D                          _VTG 0103  
+                   _latitude 003B  _heading_change_since_beacon 0031  
+                        _crc 0106                    _ser4800bd 0108  
+                  _getcourse 026B                     _tone1200 010C  
+               ?a_gps_config 0056              _altitude_enable 0104  
+                 getch_wait1 034E                   getch_wait2 035A  
+                 getch_wait3 036F                   config_word 2007  
+                       u1500 0702                         u1415 06CA  
+                       u1345 0618                         u1355 0637  
+                       u1445 06D9                         u1365 065A  
+                 _status_now 010A                  _programmode 0303  
+                       _TMR0 0001                       _course 005A  
+                   _proppath 002D             _sb_current_speed 0037  
+                       _alt0 0022                         _alt1 0023  
+                       _alt2 0024                         _alt3 0025  
+                       _alt4 0026                         _alt5 0027  
+                       _crch 0028                         _crcl 0029  
+                       _main 0562                         btemp 0070  
+                       awdiv 07A8                         awmul 0256  
+                   _stuffing 010B                         lwdiv 07BD  
+                       lwmul 0256                         start 003B  
+                  _modem_cnt 002A                    _modem_dly 002B  
+                  _modem_isr 0008                       saved_w 0066  
+                  clear_bit0 003F                   _getlatlong 02DC  
+                  _longitude 0043                     int_entry 0004  
+                  putch_wait 02A4                  ?a_ax25_send 0056  
+                ?a_ax25_putc 0058                   ?a_getspeed 0056  
+             _turn_threshold 002F                ?a_programmode 0056  
+                      _PORTB 0006                   _gps_config 0245  
+                    _seconds 0039                      _sendbit 0107  
+                    _ser_pol 0109               _CSE_SPD_enable 0100  
+                      _getch 033B                        _speed 005D  
+                      _tdtoi 02B9                        _putch 0297  
+                    get_wave 0014                    _stuff_cnt 002E  
+                      pclath 000A                  saved_status 0065  
+                  _ax25_send 03C9                    _ax25_putc 0374  
+                      status 0003                    copy_bank0 0043  
+                    int_func 0008                   _modem_wave 002C  
+              _btextinterval 0060                   clear_bank0 003B  
+              _sb_POSIT_rate 0033              _sb_last_heading 0061  
+               _version_text 0074                   _beacon_now 0105  
+                 int_restore 0036                   used_btemp0 0001  
+                 used_btemp1 0001                   used_btemp2 0001  
+                 used_btemp3 0001                   used_btemp4 0001  
+                 used_btemp5 0001  

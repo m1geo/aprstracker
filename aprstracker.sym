@@ -1,0 +1,258 @@
+_w 30 0 BANK0
+used_btemp3 1 0
+__Hinit23 4C 0 CODE
+__Linit23 4C 0 CODE
+__Hcode_ptr 65 0 BANK0
+__Lcode_ptr 63 0 BANK0
+__S0 2198 0
+__S1 A0 0
+_GGA 101 FFFFFF20 BANK0
+_RMC 102 FFFFFF20 BANK0
+_VTG 103 FFFFFF20 BANK0
+_crc 106 FFFFFF20 BANK0
+used_btemp4 1 0
+?a_gps_config 56 0 BANK0
+_alt0 22 0 BANK0
+_alt1 23 0 BANK0
+_alt2 24 0 BANK0
+_alt3 25 0 BANK0
+_alt4 26 0 BANK0
+_alt5 27 0 BANK0
+used_btemp5 1 0
+_crch 28 0 BANK0
+awmod 7A8 0 CODE
+_crcl 29 0 BANK0
+lwmod 7BD 0 CODE
+_main 562 0 CODE
+awmul 256 0 CODE
+lwmul 256 0 CODE
+awdiv 7A8 0 CODE
+_exit 3B 0 CODE
+lwdiv 7BD 0 CODE
+start 3B 0 CODE
+used_btemp6 1 0
+_beacon_now 105 FFFFFF20 BANK0
+used_code_ptr 1 0
+_status_now 10A FFFFFF20 BANK0
+__Hfloat_text2 73 0 CODE
+__Lfloat_text2 73 0 CODE
+__Brbit_0 20 FFFFFF20 BANK0
+?a_ax25_putc 58 0 BANK0
+__Hrbit_0 10D FFFFFF20 BANK0
+__Lrbit_0 100 FFFFFF20 BANK0
+_sb_current_heading 35 0 BANK0
+__Brbit_1 A0 FFFFFBA0 BANK1
+__Hrbss_0 5A 0 BANK0
+__Hrbit_1 500 FFFFFBA0 BANK1
+__Lrbss_0 22 0 BANK0
+__Lrbit_1 500 FFFFFBA0 BANK1
+__Brbit_2 A0 FFFFFBA0 BANK2
+__Hrbss_1 A0 0 BANK1
+__Hrbit_2 500 FFFFFBA0 BANK2
+__Lrbss_1 A0 0 BANK1
+__Lrbit_2 500 FFFFFBA0 BANK2
+__Brbit_3 A0 FFFFFBA0 BANK3
+__Hrbss_2 A0 0 BANK2
+__Hrbit_3 500 FFFFFBA0 BANK3
+__Lrbss_2 A0 0 BANK2
+__Lrbit_3 500 FFFFFBA0 BANK3
+_speed 5D 0 BANK0
+_getch 33B 0 CODE
+__Hrbss_3 A0 0 BANK3
+_ax25_send 3C9 0 CODE
+_putch 297 0 CODE
+__Lrbss_3 A0 0 BANK3
+__Hintcode 36 0 CODE
+__Lintcode 8 0 CODE
+_tdtoi 2B9 0 CODE
+intlevel0 4 0 CODE
+dowdiv 7BE 0 CODE
+intlevel1 4 0 CODE
+_altitude_enable 104 FFFFFF20 BANK0
+_sb_POSIT_rate 33 0 BANK0
+__Heeprom_data 2198 0 EEDATA
+__Leeprom_data 2100 0 EEDATA
+_longitude 43 0 BANK0
+__Hidata_0 800 0 CODE
+__Lidata_0 7F7 0 CODE
+_ax25_putc 374 0 CODE
+__Hrdata_0 63 0 BANK0
+__Lrdata_0 5A 0 BANK0
+_sb_current_speed 37 0 BANK0
+__Hintsave_0 67 0 BANK0
+__Lintsave_0 66 0 BANK0
+__Hidata_1 73 0 CODE
+__Lidata_1 73 0 CODE
+__Hrdata_1 A0 0 BANK1
+__Lrdata_1 A0 0 BANK1
+__Hidata_2 A0 0
+__Hintsave A0 0
+__Lidata_2 A0 0
+__Lintsave A0 0
+__Hintentry 8 0 CODE
+_heading_change_since_beacon 31 0 BANK0
+__Lintentry 4 0 CODE
+__Hrdata_2 A0 0 BANK2
+__Lrdata_2 A0 0 BANK2
+__Hidata_3 A0 0
+__Lidata_3 A0 0
+__Hrdata_3 A0 0 BANK3
+__Lrdata_3 A0 0 BANK3
+__Hnvram_1 A0 0 BANK1
+__Lnvram_1 A0 0 BANK1
+__Bnvbit_0 63 FFFFFD4B BANK0
+__Hnvbit_0 318 FFFFFD4B BANK0
+__Lnvbit_0 318 FFFFFD4B BANK0
+__Hnvram_2 A0 0 BANK2
+__Lnvram_2 A0 0 BANK2
+_getcourse 26B 0 CODE
+__Hintsave_1 A0 0
+__Lintsave_1 A0 0
+__Bnvbit_1 A0 FFFFFBA0 BANK1
+__Hnvbit_1 500 FFFFFBA0 BANK1
+__Lnvbit_1 500 FFFFFBA0 BANK1
+__Hnvram_3 A0 0 BANK3
+__Lnvram_3 A0 0 BANK3
+?a_getspeed 56 0 BANK0
+__Bnvbit_2 A0 FFFFFBA0 BANK2
+__Hnvbit_2 500 FFFFFBA0 BANK2
+__Lnvbit_2 500 FFFFFBA0 BANK2
+_CSE_SPD_enable 100 FFFFFF20 BANK0
+__Hcode A0 0
+__Lcode A0 0
+__Bnvbit_3 A0 FFFFFBA0 BANK3
+__Hnvbit_3 500 FFFFFBA0 BANK3
+__Lnvbit_3 500 FFFFFBA0 BANK3
+__Hfloat_text3 73 0 CODE
+__Lfloat_text3 73 0 CODE
+copy_bank0 43 0 CODE
+?a_main 4C 0 BANK0
+_course 5A 0 BANK0
+__Htemp 77 0 BANK0
+__Ltemp 70 0 BANK0
+__Hinit 4C 0 CODE
+__Linit 3B 0 CODE
+__Hintsave_2 A0 0 BANK2
+__Lintsave_2 A0 0 BANK2
+powerup 0 0 CODE
+__Htext A0 0
+__Ltext A0 0
+_stuff_cnt 2E 0 BANK0
+_modem_cnt 2A 0 BANK0
+clear_bit0 3F 0 CODE
+__Hstrings 73 0 STRING
+__Lstrings 73 0 STRING
+?a_getcourse 56 0 BANK0
+_modem_isr 8 0 CODE
+__Hstringtable 73 0 ENTRY
+__Lstringtable 5E 0 ENTRY
+__Hintsave_3 A0 0 BANK3
+__Lintsave_3 A0 0 BANK3
+__Hcommon_ram A0 0
+__Lcommon_ram A0 0
+_turn_threshold 2F 0 BANK0
+_gps_config 245 0 CODE
+_modem_dly 2B 0 BANK0
+_btextinterval 60 0 BANK0
+?a_programmode 56 0 BANK0
+__Hpowerup 4 0 CODE
+__Lpowerup 0 0 CODE
+__Hvectors 7C 0 CODE
+__Lvectors 7C 0 CODE
+_eep_read 23D 0 CODE
+__Hclrtext 5E 0 CODE
+__Lclrtext 4E 0 CODE
+_getspeed 281 0 CODE
+copy_data 55 0 CODE
+_getcomma 236 0 CODE
+__Hconfig 2008 0 CONFIG
+__Lconfig 2007 0 CONFIG
+_latitude 3B 0 BANK0
+_modem_wave 2C 0 BANK0
+_version_text 74 0 CONST
+config_word 2007 0 CONFIG
+_stuffing 10B FFFFFF20 BANK0
+__Hfloat_text0 73 0 CODE
+__Lfloat_text0 73 0 CODE
+clear_ram 51 0 CODE
+__Hfloat_text4 73 0 CODE
+__Lfloat_text4 73 0 CODE
+string_indir 60 0 ENTRY
+_getlatlong 2DC 0 CODE
+_proppath 2D 0 BANK0
+_sb_last_heading 61 0 BANK0
+int_restore 36 0 CODE
+__Hintret 3B 0 CODE
+__Lintret 36 0 CODE
+__Hstruct 67 0 BANK0
+__Lstruct 67 0 BANK0
+_ser4800bd 108 FFFFFF20 BANK0
+__Hidloc 2000 0 IDLOC
+__Lidloc 2000 0 IDLOC
+clear_bank0 3B 0 CODE
+?a_getch 57 0 BANK0
+_tone1200 10C FFFFFF20 BANK0
+int_func 8 0 CODE
+?a_ax25_send 56 0 BANK0
+?a_putch 58 0 BANK0
+int_entry 4 0 CODE
+__Hnvram 63 0 BANK0
+__Lnvram 63 0 BANK0
+?a_tdtoi 56 0 BANK0
+_ser_pol 109 FFFFFF20 BANK0
+string_table 5E 0 ENTRY
+_sendbit 107 FFFFFF20 BANK0
+_seconds 39 0 BANK0
+code_ptr 63 0 BANK0
+_programmode 303 0 CODE
+__Hfloat_text1 7F7 0 CODE
+__Lfloat_text1 7A8 0 CODE
+used_btemp0 1 0
+__Hpstrings 73 0 CODE
+__Lpstrings 73 0 CODE
+__Hend_init 4E 0 CODE
+__Lend_init 4C 0 CODE
+used_btemp1 1 0
+used_btemp2 1 0
+%segments
+powerup 0 7 CODE
+intentry 8 E5 CODE
+rbit_0 100 146 BANK0
+idata_0 FEE FFF CODE
+temp 70 76 COMBANK
+config 400E 400F CONFIG
+eeprom_data 4200 432F EEDATA
+float_text1 F50 FED CODE
+text13 AC4 F4F CODE
+text6 792 AC3 CODE
+text3 6E8 791 CODE
+text4 676 6E7 CODE
+text7 606 675 CODE
+text9 5B8 605 CODE
+text0 572 5B7 CODE
+text5 52E 571 CODE
+text11 502 52D CODE
+text10 4D6 501 CODE
+text 4AC 4D5 CODE
+text12 48A 4AB CODE
+const1 E6 F7 CONST
+text1 47A 489 CODE
+text8 46C 479 CODE
+%locals
+aprstracker.obj
+pc 2
+fsr 4
+_PCLATH A
+_PCL 2
+getch_wait1 34E 0 CODE
+getch_wait2 35A 0 CODE
+getch_wait3 36F 0 CODE
+_TMR0 1
+btemp 70 0 BANK0
+saved_w 66 0 BANK0
+putch_wait 2A4 0 CODE
+_PORTB 6
+get_wave 14 0 CODE
+pclath A
+saved_status 65 0 BANK0
+status 3

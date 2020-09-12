@@ -1,0 +1,21 @@
+
+Memory Usage Map:
+
+Program ROM   $0000 - $0090  $0091 (   145) words
+Program ROM   $0245 - $07FF  $05BB (  1467) words
+                             $064C (  1612) words total Program ROM 
+
+Bank 0 RAM    $0022 - $0066  $0045 (    69) bytes
+Bank 0 RAM    $0070 - $0076  $0007 (     7) bytes
+                             $004C (    76) bytes total Bank 0 RAM  
+
+Bank 0 Bits   $0100 - $010C  $000D (    13) bits  total Bank 0 Bits 
+EEPROM Data   $2100 - $217F  $0080 (   128) words total EEPROM Data 
+Config Data   $2007 - $2007  $0001 (     1) words total Config Data 
+
+
+Program statistics:
+
+Total ROM used     1612 words (78.7%)
+Total RAM used       78 bytes (44.3%)
+

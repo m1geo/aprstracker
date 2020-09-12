@@ -1,0 +1,14 @@
+*CONFIG TOOL*
+\r\n conversion to CR/LF works, but if for some reason the GPS expects 
+that the order is reversed (i.e. \n\r) then the conversion fails.
+
+*CONFIG TOOL*
+Currently only a SSID in the range 0-9 can be entered. 
+This should be extended to 0-15.
+For the time being a work-around is possible by entering
+    -:	for SSID -10
+    -;	for SSID -11
+    -<	for SSID -12
+    -=	for SSID -13
+    ->	for SSID -14
+    -?	for SSID -15
