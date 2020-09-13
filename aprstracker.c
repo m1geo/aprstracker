@@ -1,14 +1,23 @@
 /*
- *	aprstracker.c	v 0.12
+ *	aprstracker.c	v 0.13
  *
  *      Copyright 2003-2005 Jeroen Vreeken (pe1rxq@amsat.org),
- *                2005-2006 Arno Verhoeven (pe1icq@amsat.org)
+ *                2005-2006 Arno Verhoeven (pe1icq@amsat.org),
+ *                2020      George Smart   (george@m1geo.com)
  *
  *	Published under the terms of the GNU General Public License
  *	version 2. Read the file COPYING for more details.
  *
+ *  Originally built with Hi-Tech C Compiler V8.02PL1.
+ *
+ *  Build notes:
+ *   Builds with Hi-Tech C V9.65 (from Microchip FTP Archive)
+ *    "C:\Program Files (x86)\HI-TECH Software\PICC\PRO\9.65\bin\picc.exe" aprstracker.c -Os -16F648A
+ *
+ *   Builds with XC8 2.30 (see __XC defines for differences)
+ *    "XC8 Global Options", and change "C Standard" from "C 99" to "C 90"
+ *
  */
-
 
 #include <pic.h>
 #include "aprstracker.h"
@@ -100,69 +109,156 @@ char eep_read(char addr)
 #define TWAIT1200	32
 #define TWAIT2200	58
 
+
+// interrupt void modem_isr(void)
+// {
+// #asm
+	// movf	_modem_dly, w
+	// movwf	_TMR0
+
+	// incf	_modem_cnt		/* modem_cnt++ */
+	// incf	_modem_wave		/* modem_wave++ */
+
+	// movlw	HIGH get_wave		/* get portb value from jump table */
+	// movwf	_PCLATH, f
+	// movf	_modem_wave, w
+	// andlw	0x1f			/* modem_wave &= 0x1f */
+	// call	get_wave
+// #if defined(_16F636)
+        // movwf   _PORTC                  /* set new DA value */
+// #else
+        // movwf   _PORTB                  /* set new DA value */
+// #endif
+	// bcf	11,2			/* T0IF=0*/
+// #endasm
+	// return;
+// #asm
+
+// get_wave:
+	// addwf	_PCL, f
+	// retlw	8
+	// retlw	9
+	// retlw	10
+	// retlw	12
+	// retlw	13
+	// retlw	14
+	// retlw	14
+	// retlw	15
+	
+	// retlw	15
+	// retlw	15
+	// retlw	14
+	// retlw	14
+	// retlw	13
+	// retlw	12
+	// retlw	10
+	// retlw	9
+
+	// retlw	8
+	// retlw	6
+	// retlw	5
+	// retlw	3
+	// retlw	2
+	// retlw	1
+	// retlw	1
+	// retlw	0
+
+	// retlw	0
+	// retlw	0
+	// retlw	1
+	// retlw	1
+	// retlw	2
+	// retlw	3
+	// retlw	5
+	// retlw	6
+// #endasm
+// }
+
+
 interrupt void modem_isr(void)
 {
 #asm
-	movf	_modem_dly, w
-	movwf	_TMR0
-
-	incf	_modem_cnt		/* modem_cnt++ */
-	incf	_modem_wave		/* modem_wave++ */
-
-	movlw	HIGH get_wave		/* get portb value from jump table */
-	movwf	_PCLATH, f
-	movf	_modem_wave, w
-	andlw	0x1f			/* modem_wave &= 0x1f */
-	call	get_wave
-#if defined(_16F636)
-        movwf   _PORTC                  /* set new DA value */
-#else
-        movwf   _PORTB                  /* set new DA value */
-#endif
-	bcf	11,2			/* T0IF=0*/
-#endasm
-	return;
-#asm
+       Goto afterWave
 
 get_wave:
-	addwf	_PCL, f
-	retlw	8
-	retlw	9
-	retlw	10
-	retlw	12
-	retlw	13
-	retlw	14
-	retlw	14
-	retlw	15
-	
-	retlw	15
-	retlw	15
-	retlw	14
-	retlw	14
-	retlw	13
-	retlw	12
-	retlw	10
-	retlw	9
+#if defined(__XC)
+       addwf  PCL, f
+#else
+       addwf  _PCL, f
+#endif
+       retlw  8
+       retlw  9
+       retlw  10
+       retlw  12
+       retlw  13
+       retlw  14
+       retlw  14
+       retlw  15
+       
+       retlw  15
+       retlw  15
+       retlw  14
+       retlw  14
+       retlw  13
+       retlw  12
+       retlw  10
+       retlw  9
 
-	retlw	8
-	retlw	6
-	retlw	5
-	retlw	3
-	retlw	2
-	retlw	1
-	retlw	1
-	retlw	0
+       retlw  8
+       retlw  6
+       retlw  5
+       retlw  3
+       retlw  2
+       retlw  1
+       retlw  1
+       retlw  0
 
-	retlw	0
-	retlw	0
-	retlw	1
-	retlw	1
-	retlw	2
-	retlw	3
-	retlw	5
-	retlw	6
+       retlw  0
+       retlw  0
+       retlw  1
+       retlw  1
+       retlw  2
+       retlw  3
+       retlw  5
+       retlw  6
+
+afterWave:
+       movf   _modem_dly, w
+       movwf  _TMR0
+
+       incf   _modem_cnt          /* modem_cnt++ */
+       incf   _modem_wave         /* modem_wave++ */
+
+       movlw  HIGH get_wave       /* get portb value from jump table */
+       
+#if defined(__XC)
+       movwf  PCLATH, f
+#else
+       movwf  _PCLATH, f
+#endif
+       movf   _modem_wave, w
+       andlw  0x1f                /* modem_wave &= 0x1f */
+       call   get_wave
+	   
+#if defined(_16F636)
+#if defined(__XC)
+       movwf   PORTC                  /* set new DA value */
+#else
+       movwf   _PORTC                  /* set new DA value */
+#endif
+#else
+#if defined(__XC)
+       movwf   PORTB                  /* set new DA value */
+#else
+       movwf   _PORTB                  /* set new DA value */
+#endif
+#endif
+       bcf    11,2                /* T0IF=0*/
 #endasm
+       return;
 }
+
+
 
 #define wait_bit() do \
 { \
@@ -446,7 +542,7 @@ void ax25_send(void)
 		i=0;
 		while (version_text[i])
 			ax25_putc(version_text[i++]>>1);
-		#if defined(_16F636) || defined(_16F648) || defined(_16F88)
+		#if defined(_16F636) || defined(_16F648A) || defined(_16F88)
 			i=EE_STATUSTEXT;
 			while (j=eep_read(i++))
 				ax25_putc(j);
@@ -632,7 +728,7 @@ void main(void)
 
 	CLRWDT();
 	INTCON = 0;	/* Disable all interrupts (also GIE) */
-
+	
 #if defined(_16F88)
 	TMR0IE = 1;
 #else
@@ -648,7 +744,11 @@ void main(void)
 	SW1 = 1;	// not available
 #else
 	CMCON=0x07;	/* Turn off comparators */
-	RBPU=0;		/* enable weak pullups on port B */
+#if defined(__XC)
+       OPTION_REG &= ~(1UL << 7); // clear bit 7 (enable weak pullups on port B)
+#else
+       RBPU=0;
+#endif
 	INIT_PORTB;	/* port directions */
 #endif
 	INIT_PORTA;	/* port directions */
@@ -662,6 +762,9 @@ void main(void)
 	ser_pol = 1;			// Start with assuming no inversion
 	firsttime = 1;
 	
+	GPSEN = 1;	/* GPS on (active low) */
+	GPSEN = 0;	/* GPS on (active low) */
+
 	/* wait for serial data */
 wait_ser:
 	CLRWDT();

@@ -1,11 +1,22 @@
 /*
- *	aprstracker.h
+ *	aprstracker.h	v 0.13
  *
  *      Copyright 2003-2005 Jeroen Vreeken (pe1rxq@amsat.org),
- *                2005-2006 Arno Verhoeven (pe1icq@amsat.org)
+ *                2005-2006 Arno Verhoeven (pe1icq@amsat.org),
+ *                2020      George Smart   (george@m1geo.com)
  *
  *	Published under the terms of the GNU General Public License
  *	version 2. Read the file COPYING for more details.
+ *
+ *  Originally built with Hi-Tech C Compiler V8.02PL1.
+ *
+ *  Build notes:
+ *   Builds with Hi-Tech C V9.65 (from Microchip FTP Archive)
+ *    "C:\Program Files (x86)\HI-TECH Software\PICC\PRO\9.65\bin\picc.exe" aprstracker.c -Os -16F648A
+ *
+ *   Builds with XC8 2.30 (see __XC defines for differences)
+ *    "XC8 Global Options", and change "C Standard" from "C 99" to "C 90"
+ *
  */
 
 #ifndef _INCLUDE_APRSTRACKER_H_
@@ -20,7 +31,7 @@
    For the moment I'm just ignoring these settings....
 */
 
-#if defined(_16F628) || defined(_16F648) || defined(_16F88)
+#if defined(_16F628) || defined(_16F648A) || defined(_16F88)
 	__CONFIG(HS & WDTEN & PWRTEN & BOREN & LVPDIS & UNPROTECT);
 #endif
 #if defined(_16F636)
@@ -28,20 +39,20 @@
 #endif
 
 
-#define APRSTRACKER_VERSION	0x0C
+#define APRSTRACKER_VERSION	0x0D
 
 #if defined(_16F628)
-	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'B'<<1, '2'<<1, '}'<<1,
-	                              'a'<<1, 'p'<<1, 'r'<<1, 's'<<1, 't'<<1, 'r'<<1, 'a'<<1, 
-				      'c'<<1, 'k'<<1, 'e'<<1, 'r'<<1, '-'<<1, '0'<<1, '.'<<1, 
-				      '1'<<1, '2'<<1, '-'<<1, '1'<<1, '6'<<1, 'f'<<1, '6'<<1, 
+	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'D'<<1, '2'<<1, '}'<<1,
+	                              'a'<<1, 'p'<<1, 'r'<<1, 's'<<1, 't'<<1, 'r'<<1, 'a'<<1,
+				      'c'<<1, 'k'<<1, 'e'<<1, 'r'<<1, '-'<<1, '0'<<1, '.'<<1,
+				      '1'<<1, '3'<<1, '-'<<1, '1'<<1, '6'<<1, 'f'<<1, '6'<<1,
 				      '2'<<1, '8'<<1, 0 };
 #elif defined(_16F636)
-	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'C'<<1, '3'<<1, '}'<<1, 0 };
-#elif defined(_16F648)
-	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'C'<<1, '4'<<1, '}'<<1, 0 };
+	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'D'<<1, '3'<<1, '}'<<1, 0 };
+#elif defined(_16F648A)
+	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'D'<<1, '4'<<1, '}'<<1, 0 };
 #elif defined(_16F88)
-	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'C'<<1, '8'<<1, '}'<<1, 0 };
+	const char version_text[] = { '{'<<1, 'A'<<1, 'T'<<1, '0'<<1, 'D'<<1, '8'<<1, '}'<<1, 0 };
 #endif
 
 
@@ -49,7 +60,7 @@
  *	EEPROM defaults
  */
 
-/* memmory layout version */
+/* memory layout version */
 #define APRSTRACKER_EEVERSION	0x04
 
 #asm
@@ -135,14 +146,14 @@
 	db	0, 0, 0, 0, 0, 0, 0, 0
 	db	0, 0, 0, 0, 0, 0, 0, 0
 
-#if defined(_16F636) || defined(_16F648) || defined(_16F88)
+#if defined(_16F636) || defined(_16F648A) || defined(_16F88)
 	/* position 0x80-onwards statustext (null terminated) */
 	#define EE_STATUSTEXT	0x80
 	db	'a', 'p', 'r', 's', 't', 'r', 'a', 'c'
 	db	'k', 'e', 'r', '-', '0', '.', '1', '2'
 #if defined(_16F636)
 	db	'-', '1', '6', 'f', '6', '3', '6', 0
-#elif defined(_16F648)
+#elif defined(_16F648A)
 	db	'-', '1', '6', 'f', '6', '4', '8', 0
 #elif defined(_16F88)
 	db	'-', '1', '6', 'f', '8', '8', 0, 0
@@ -150,34 +161,34 @@
 #endif
 #endasm
 
-
-
 /*
  *	IO ports
  */
-#if defined(_16F628) || defined(_16F648) || defined(_16F88)
-	static bit LSTAT	@(unsigned)&PORTA*8+0;
-	static bit LGPS 	@(unsigned)&PORTA*8+1;
-	static bit PTT 		@(unsigned)&PORTA*8+2;
-	static bit TXD		@(unsigned)&PORTA*8+3;
-	static bit RXD		@(unsigned)&PORTA*8+4;
+#if defined(_16F628) || defined(_16F648A) || defined(_16F88)
+	static bit LSTAT	@(unsigned)&PORTA*8+0; // Status LED / LSTAT used as control for PLL after TX
+	static bit LGPS 	@(unsigned)&PORTA*8+1; // GPS LED (show we are alive)
+	static bit PTT 		@(unsigned)&PORTA*8+2; // PTT signal
+	static bit TXD		@(unsigned)&PORTA*8+3; // TXD signal
+	static bit RXD		@(unsigned)&PORTA*8+4; // RXD signal
 	
-	static bit R8K2		@(unsigned)&PORTB*8+0;
-	static bit R3K9		@(unsigned)&PORTB*8+1;
-	static bit R2K0		@(unsigned)&PORTB*8+2;
-	static bit R1K0		@(unsigned)&PORTB*8+3;
+	static bit R8K2		@(unsigned)&PORTB*8+0; // ADC LSB
+	static bit R3K9		@(unsigned)&PORTB*8+1; // ADC
+	static bit R2K0		@(unsigned)&PORTB*8+2; // ADC
+	static bit R1K0		@(unsigned)&PORTB*8+3; // ADC MSB
 
 	// keep in mind that RXDET is TRUE if channel is free
-	static bit RXDET	@(unsigned)&PORTB*8+4;
-	static bit SEND		@(unsigned)&PORTB*8+5;
-	static bit SW1		@(unsigned)&PORTB*8+6;
-	static bit SW2		@(unsigned)&PORTB*8+7;
+	static bit RXDET	@(unsigned)&PORTB*8+4; // DCD LED
+	static bit SEND		@(unsigned)&PORTB*8+5; // SEND INHIBIT
+	static bit SW1		@(unsigned)&PORTB*8+6; // LED status switch (Ch4, https://rf-design.co.za/wp-content/uploads/2019/03/SkyTracker-Rev250309.pdf)
+	static bit GPSEN	@(unsigned)&PORTB*8+7; // /GPS_EN (active low) - stops GPS powering before MCU which causes the config code to corrupt EEPROM data
 
 	/* Only the receiving pins */
 	/* A4 = 16 */
 	#define INIT_PORTA	TRISA = 16
-	/* B4 = 16, B5 = 32, B6 = 64, B7 = 128 */
-	#define INIT_PORTB	TRISB = 16 + 32 + 64 + 128
+	// /* B4 = 16, B5 = 32, B6 = 64, B7 = 128 */
+	// #define INIT_PORTB	TRISB = 16 + 32 + 64 + 128
+	/* (B7 = 128 removed, now output for GPSEN) B4 = 16, B5 = 32, B6 = 64 */
+	#define INIT_PORTB	TRISB = 16 + 32 + 64
 #endif
 #if defined(_16F636)
 	bit LSTAT;
@@ -197,7 +208,7 @@
 	static bit RXD		@(unsigned)&PORTC*8+5;
 
 	bit SW1;	// not available
-	bit SW2;	// not available
+	bit GPSEN;	// not available
 
 	/* Only the receiving pins */
 	/* A1= 2, A3 = 8 */
